@@ -7,6 +7,8 @@ public class UserInterface {
 
     // kind of looks like a good place to write some code if you ask me ;-)
 
+    Wallet myWallet = new Wallet();
+
     public String printMainMenu() {
 
         Scanner mainInput = new Scanner(System.in);
@@ -29,7 +31,7 @@ public class UserInterface {
         System.out.println("(1) Add Money");
         System.out.println("(2) Select Products");
         System.out.println("(3) Complete Transaction");
-        System.out.println("Current Account Balance: $");
+        System.out.println("Current Account Balance: $" + myWallet.getMoneyOnHand());
 
         System.out.println("\n" + "Please make a sub menu selection: ");
 
@@ -49,12 +51,27 @@ public class UserInterface {
 
     }
 
+    public String selectProduct(){
+        Scanner myScanner  = new Scanner(System.in);
+        System.out.println("Please enter the desired product code");
+        return myScanner.nextLine();
+    }
+
+    public int selectQuantity() {
+        Scanner myScanner  = new Scanner(System.in);
+        System.out.println("Please enter quantity");
+        int qtyInput = myScanner.nextInt();
+        myScanner.nextLine();
+        return qtyInput;
+    }
     public void displayInventory(List<CateringItem> cateringItems){
 
-        System.out.printf("%-20s%-25s%-15s%-8s", "Product Code", "Description", "Qty", "Price" + "\n");
+        System.out.printf("%-20s%-25s%-15s%-8s", "Product Code", "Description", "Qty", "Price");
+        System.out.println("\n");
 
         for(CateringItem cateringItem : cateringItems ){
         System.out.println(String.format("%-20s%-25s%-15s%-8.2f", cateringItem.getCode(), cateringItem.getDescription(), cateringItem.getQty(), cateringItem.getPrice()));
-    }
+    } System.out.println("\n");
+
 }
 }

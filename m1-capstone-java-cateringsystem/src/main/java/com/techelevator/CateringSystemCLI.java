@@ -4,6 +4,7 @@ package com.techelevator;
 import com.techelevator.view.*;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 public class CateringSystemCLI {
@@ -41,8 +42,7 @@ public class CateringSystemCLI {
             //Captures user input on Main Menu
             String userSelection = userInterface.printMainMenu();
 
-            if (userSelection.equals(DISPLAY_CATERING_ITEMS))
-            {
+            if (userSelection.equals(DISPLAY_CATERING_ITEMS)) {
                 displayInventory();
             }
             if (userSelection.equals(ORDER)) {
@@ -64,41 +64,45 @@ public class CateringSystemCLI {
             if (subUserSelection.equals(ADD_MONEY)) {
                 runAddMoney();
             } else if (subUserSelection.equals(SELECT_PRODUCTS)) {
-                System.out.println(SELECT_PRODUCTS);
+                displayInventory();
+                selectProducts();
             } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
                 System.out.println(COMPLETE_TRANSACTION);
                 break;
             }
-
         }
-
     }
 
     private void runAddMoney() {
         double fundsToAdd = userInterface.addFunds(); //Call user interface, get funds, return quantity (UI screens for 100 / 1000 limits)
-      // IF user interface see 100 / 1000 violation, returns $0 to add to quantity - also sends error message
+        // IF user interface see 100 / 1000 violation, returns $0 to add to quantity - also sends error message
         //ELSE funds are added via Wallet.addMoney
 
-        if (fundsToAdd> 100) {
-            System.out.println("Amount should be less than $100");
-        } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)){
-            System.out.println("Amount on hand exceeds $1000 Please add less than " + (myWallet.getMoneyOnHand() + fundsToAdd - 1000));
-        } else myWallet.addMoney(fundsToAdd);
-        System.out.println(myWallet.getMoneyOnHand()); ///QA LINE
+        try {
+            if (fundsToAdd > 100) {
+                System.out.println("Amount should be less than $100");
+            } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {
+                System.out.println("Amount on hand exceeds $1000 Please add less than " + (myWallet.getMoneyOnHand() + fundsToAdd - 1000));
+            } else myWallet.addMoney(fundsToAdd);
+            System.out.println(myWallet.getMoneyOnHand()); ///QA LINE
+        } catch (InputMismatchException ex) {
+            System.out.println("Please enter a whole number amount");
+        }
     }
 
-    private void displayInventory()
-    {
+    private void displayInventory() {
         Inventory inventory = new Inventory();
         List<CateringItem> cateringItemList = new ArrayList<>();
 
-       cateringItemList =  inventory.displayInventory();
-       
-       userInterface.displayInventory(cateringItemList);
+        cateringItemList = inventory.displayInventory();
 
-
+        userInterface.displayInventory(cateringItemList);
     }
 
+    public void selectProducts(){
 
+        userInterface.selectProduct();
+        userInterface.selectQuantity();
 
+    }
 }
