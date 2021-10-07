@@ -6,7 +6,7 @@ public class CateringItem {
     private String code;
     private String description;
     private double price;
-    private final int qty = 25;
+    private int qty;
 
 
     public CateringItem(String type, String code, String description, double price){
@@ -30,5 +30,9 @@ public class CateringItem {
 
     public double getPrice() {
         return price;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 }
