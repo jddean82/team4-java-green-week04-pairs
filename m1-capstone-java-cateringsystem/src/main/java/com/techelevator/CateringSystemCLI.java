@@ -1,10 +1,10 @@
 package com.techelevator;
 
 
-import com.techelevator.view.FileReader;
-import com.techelevator.view.Inventory;
-import com.techelevator.view.UserInterface;
-import com.techelevator.view.Wallet;
+import com.techelevator.view.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CateringSystemCLI {
 
@@ -41,8 +41,9 @@ public class CateringSystemCLI {
             //Captures user input on Main Menu
             String userSelection = userInterface.printMainMenu();
 
-            if (userSelection.equals(DISPLAY_CATERING_ITEMS)) {
-
+            if (userSelection.equals(DISPLAY_CATERING_ITEMS))
+            {
+                displayInventory();
             }
             if (userSelection.equals(ORDER)) {
                 runSubMenu();
@@ -85,4 +86,18 @@ public class CateringSystemCLI {
         } else myWallet.addMoney(fundsToAdd);
         System.out.println(myWallet.getMoneyOnHand()); ///QA LINE
     }
+
+    private void displayInventory()
+    {
+        Inventory inventory = new Inventory();
+        List<CateringItem> cateringItemList = new ArrayList<>();
+
+       cateringItemList =  inventory.displayInventory();
+
+
+
+    }
+
+
+
 }

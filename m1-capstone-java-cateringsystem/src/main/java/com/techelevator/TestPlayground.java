@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class TestPlayground
@@ -23,6 +24,12 @@ public class TestPlayground
         catch (Exception e) {
             e.printStackTrace();
         }
+        double number = 9.99;
+
+        NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
+        toCurrency.format(number);
+        System.out.println(toCurrency.format(number));
+
 
         ///CHANGE
         Scanner userInput = new Scanner(System.in);
@@ -30,6 +37,7 @@ public class TestPlayground
         double total = userInput.nextDouble();
         System.out.println();
         System.out.println(total);
+
         int change20 = 0;
         int change10 = 0;
         int change5 = 0;
