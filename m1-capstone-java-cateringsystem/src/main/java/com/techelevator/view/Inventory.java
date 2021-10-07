@@ -15,14 +15,14 @@ public class Inventory {
 
     }
 
-   public List<CateringItem> displayInventory(){
+  // public List<CateringItem> displayInventory(){
 
-        List<CateringItem> listOfCateringItems = new ArrayList<>();
-
-
+   //     List<CateringItem> listOfCateringItems = new ArrayList<>();
 
 
-    }
+
+
+ //   }
 
 
 }
