@@ -46,7 +46,19 @@ public class TestPlayground
             total = total -(10* change10);
         }
 
-        System.out.println(change20 +" /"+  change10+ " /" + total);
+        if(total>=5)
+        {
+            change5 = (int)total / 5;
+            total = total -(5 * change5);
+        }
+
+        if(total>=1)
+        {
+            change1 = (int)total / 1;
+            total = total -(change1);
+        }
+
+        System.out.println(change20 +" 20s/"+  change10+ " 10s/" +  change5+ " 5s/"+  change1+ " 1s/ Remaining"+ total);
 
 
     }

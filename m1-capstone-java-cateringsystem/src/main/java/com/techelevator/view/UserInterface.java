@@ -35,5 +35,28 @@ public class UserInterface {
         return subInput.nextLine();
     }
 
+    public double addFunds()
+    {
+        Scanner moneyInput = new Scanner(System.in);
+        double amountToAdd; // RETURN VALUE
+        Wallet wallet = new Wallet();      // Used to get value from wallet / test for > 1000
 
+        System.out.println("How much money would you like to add, max is $100");
+        amountToAdd = moneyInput.nextInt();
+        moneyInput.nextLine();
+
+        if(amountToAdd>100)
+        {
+            System.out.println("Amount should be less than $100");
+            return 0;
+        }
+        else if (wallet.getMoneyOnHand() + amountToAdd > 1000)
+        {
+            System.out.println("Amount on hand exceeds $1000 Please add less than " + (wallet.getMoneyOnHand()+ amountToAdd - 1000));
+            return  0;
+        }
+        else
+        return amountToAdd;
+
+    }
 }
