@@ -38,10 +38,15 @@ public class TestPlayground
         System.out.println();
         System.out.println(total);
 
+
         int change20 = 0;
         int change10 = 0;
         int change5 = 0;
         int change1 = 0;
+        int changeQtr = 0;
+        int changeDime = 0;
+        int changeNick = 0;
+
 
         if(total>=20)
         {
@@ -64,9 +69,31 @@ public class TestPlayground
         {
             change1 = (int)total / 1;
             total = total -(change1);
+
+        }
+        total = total *100;
+        System.out.println(total);
+
+        if(total>=25)
+        {
+            changeQtr = (int)total / 25;
+            total = total -(25 * changeQtr);
         }
 
-        System.out.println(change20 +" 20s/"+  change10+ " 10s/" +  change5+ " 5s/"+  change1+ " 1s/ Remaining"+ total);
+        if(total>=10)
+        {
+            changeDime = (int)total / 10;
+            total = total -(10 * changeDime);
+        }
+
+        if(total>=5)
+        {
+            changeNick = (int)total / 5;
+
+        }
+
+
+        System.out.println(change20 +" 20s/"+  change10+ " 10s/" +  change5+ " 5s/"+  change1+" 1s/"+changeQtr +" Qtrs/"+ " /Dimes"+ changeDime +" /Nicks"+ changeNick );
 
 
     }

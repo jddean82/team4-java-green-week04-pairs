@@ -75,6 +75,7 @@ public class CateringSystemCLI {
     }
 
     private void runAddMoney() {
+
         double fundsToAdd = userInterface.addFunds(); //Call user interface, get funds, return quantity (UI screens for 100 / 1000 limits)
       // IF user interface see 100 / 1000 violation, returns $0 to add to quantity - also sends error message
         //ELSE funds are added via Wallet.addMoney
