@@ -57,6 +57,13 @@ public class Inventory {
         return quantity;
 
     }
+    public String getType(String productCode){
 
+        String type
+        CateringItem cateringItem;
+      //  cateringItem = cateringInventory;
+
+        return type;
+    }
 
 }

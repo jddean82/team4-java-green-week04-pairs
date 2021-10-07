@@ -4,6 +4,10 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../../../individual/sarahcarter-java-green/module-1/08_Collections_Part_2/lecture-student/pom.xml" />
+        <option value="$PROJECT_DIR$/../../../individual/sarahcarter-java-green/module-1/14_Unit_Testing/exercise-student/pom.xml" />
+        <option value="$PROJECT_DIR$/../../../individual/sarahcarter-java-green/module-1/14_Unit_Testing/lecture-final/pom.xml" />
+        <option value="$PROJECT_DIR$/../../../individual/sarahcarter-java-green/module-1/14_Unit_Testing/lecture-student/pom.xml" />
       </list>
     </option>
   </component>

@@ -29,6 +29,7 @@ public class CateringSystemCLI {
     Wallet myWallet = new Wallet();                        //used in subMenu
     FileReader fileReader = new FileReader();
     Inventory inventory = new Inventory();
+    Receipt receipt;
 
     public void run() {
 
@@ -73,7 +74,7 @@ public class CateringSystemCLI {
         }
     }
 
-    private void runAddMoney() {
+    public void runAddMoney() {
 
         double fundsToAdd = userInterface.addFunds(); //Call user interface, get funds, return quantity (UI screens for 100 / 1000 limits)
         // IF user interface see 100 / 1000 violation, returns $0 to add to quantity - also sends error message
@@ -119,9 +120,15 @@ public class CateringSystemCLI {
         }
         else
             System.out.println("Your request of " + quantity + " Exceeds what we have:" +existingQuantity );
+    }
 
 
+    public void printScreen(){
+       String product = userInterface.selectProduct();
+       int quantity =userInterface.selectQuantity();
 
+       List<Receipt> receiptItems = new ArrayList<>();
+      // Receipt receipt = new Receipt(quantity, )
 
     }
 }

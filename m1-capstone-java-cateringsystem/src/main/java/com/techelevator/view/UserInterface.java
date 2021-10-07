@@ -38,8 +38,7 @@ public class UserInterface {
         return subInput.nextLine();
     }
 
-    public double addFunds()
-    {
+    public double addFunds() {
         Scanner moneyInput = new Scanner(System.in);
         double amountToAdd; // RETURN VALUE
 
@@ -51,27 +50,38 @@ public class UserInterface {
 
     }
 
-    public String selectProduct(){
-        Scanner myScanner  = new Scanner(System.in);
+    public String selectProduct() {
+        Scanner myScanner = new Scanner(System.in);
         System.out.println("Please enter the desired product code");
         return myScanner.nextLine();
     }
 
     public int selectQuantity() {
-        Scanner myScanner  = new Scanner(System.in);
+        Scanner myScanner = new Scanner(System.in);
         System.out.println("Please enter quantity");
         int qtyInput = myScanner.nextInt();
         myScanner.nextLine();
         return qtyInput;
     }
-    public void displayInventory(List<CateringItem> cateringItems){
 
-        System.out.printf("%-20s%-25s%-15s%-8s", "Product Code", "Description", "Qty", "Price");
+    public void displayInventory(List<CateringItem> cateringItems) {
+
+        System.out.printf("%-15s%-25s%-12s%-5s", "Product Code", "Description", "Qty", "Price");
         System.out.println("\n");
 
-        for(CateringItem cateringItem : cateringItems ){
-        System.out.println(String.format("%-20s%-25s%-15s%-8.2f", cateringItem.getCode(), cateringItem.getDescription(), cateringItem.getQty(), cateringItem.getPrice()));
-    } System.out.println("\n");
+        for (CateringItem cateringItem : cateringItems) {
+            System.out.println(String.format("%-15s%-25s%-12s$%5.2f", cateringItem.getCode(), cateringItem.getDescription(), cateringItem.getQty(), cateringItem.getPrice()));
+        }
+        System.out.println("\n");
 
-}
+    }
+
+    public void printScreen(List<CateringItem> cateringItems){
+        int quantity = selectQuantity();
+        String productCode = selectProduct();
+
+        for (CateringItem cateringItem : cateringItems) {
+          //  System.out.println(quantity, cateringItem.getType(), cateringItem.getDescription(), cateringItem.getPrice(), (cateringItem.getPrice() * quantity));
+        }
+    }
 }
