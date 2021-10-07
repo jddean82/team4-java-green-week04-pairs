@@ -59,11 +59,10 @@ public class Inventory {
     }
     public String getType(String productCode){
 
-        String type
+        String type;
         CateringItem cateringItem;
-      //  cateringItem = cateringInventory;
 
-        return type;
+        return "test";
     }
 
 }
