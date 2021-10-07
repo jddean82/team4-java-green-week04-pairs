@@ -1,6 +1,7 @@
 package com.techelevator;
 
 
+import com.techelevator.view.Inventory;
 import com.techelevator.view.UserInterface;
 
 public class CateringSystemCLI {
@@ -27,17 +28,42 @@ public class CateringSystemCLI {
 
 
 		//probably should do stuff here... ;-)
-
+		Inventory inventory = new Inventory();
 		UserInterface userInterface = new UserInterface();
 
 
 			while(true){
 
+				String userSelection = userInterface.printMainMenu();
+
+				if (userSelection.equals(DISPLAY_CATERING_ITEMS)){
+					System.out.println(DISPLAY_CATERING_ITEMS);
+				}
+				if (userSelection.equals(ORDER)){
+
+					while (true){
+						String subUserSelection = userInterface.printSubMenu();
+
+						if (subUserSelection.equals(ADD_MONEY)){
+							System.out.println(ADD_MONEY);
+						}
+						 else if (subUserSelection.equals(SELECT_PRODUCTS)){
+							System.out.println(SELECT_PRODUCTS);
+						}
+						 else if (subUserSelection.equals(COMPLETE_TRANSACTION)){
+							System.out.println(COMPLETE_TRANSACTION);
+							break;
+						}
+
+					}
+
+				}
+				 if (userSelection.equals(QUIT)){
+					System.out.println(QUIT);
+					break;
+				}
 
 
-
-
-				break;
 			}
 
 

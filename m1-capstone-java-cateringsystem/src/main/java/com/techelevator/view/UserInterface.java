@@ -6,7 +6,7 @@ public class UserInterface {
 
     // kind of looks like a good place to write some code if you ask me ;-)
 
-    public String mainMenu() {
+    public String printMainMenu() {
 
         Scanner mainInput = new Scanner(System.in);
 
@@ -20,7 +20,7 @@ public class UserInterface {
         return mainInput.nextLine();
     }
 
-    public String subMenu() {
+    public String printSubMenu() {
 
         Scanner subInput = new Scanner(System.in);
 
