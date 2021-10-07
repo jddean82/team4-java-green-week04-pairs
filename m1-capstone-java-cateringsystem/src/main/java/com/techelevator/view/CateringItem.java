@@ -32,6 +32,10 @@ public class CateringItem {
         return price;
     }
 
+    public int getQty() {
+        return qty;
+    }
+
     public void setQty(int qty) {
         this.qty = qty;
     }
