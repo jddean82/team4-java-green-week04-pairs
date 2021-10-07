@@ -1,5 +1,7 @@
 package com.techelevator.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Inventory {
@@ -13,12 +15,14 @@ public class Inventory {
 
     }
 
-  //  public displayInventory(){
+   public List<CateringItem> displayInventory(){
+
+        List<CateringItem> listOfCateringItems = new ArrayList<>();
 
 
 
 
-    //}
+    }
 
 
 }
