@@ -21,5 +21,8 @@ This is sample text
 This is sample text
 This is sample text
 This is sample text
+<<<<<<< HEAD
 This is sample text
 This is sample text
+=======
+>>>>>>> d0f27ffb7e63008aedcda0962fa7b86c7ea6f552

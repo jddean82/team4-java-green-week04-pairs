@@ -1,5 +1,6 @@
 package com.techelevator.view;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -47,4 +48,13 @@ public class UserInterface {
         return amountToAdd;
 
     }
+
+    public void displayInventory(List<CateringItem> cateringItems){
+
+        System.out.printf("%-20s%-25s%-15s%-8s", "Product Code", "Description", "Qty", "Price" + "\n");
+
+        for(CateringItem cateringItem : cateringItems ){
+        System.out.println(String.format("%-20s%-25s%-15s%-8.2f", cateringItem.getCode(), cateringItem.getDescription(), cateringItem.getQty(), cateringItem.getPrice()));
+    }
+}
 }
