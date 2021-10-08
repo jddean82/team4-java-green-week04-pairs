@@ -6,9 +6,11 @@ import com.techelevator.view.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class CateringSystemCLI {
     Wallet myWallet = new Wallet();                        //used in subMenu
     FileReader fileReader = new FileReader();
     Inventory inventory = new Inventory();
-    List<Receipt> receipts = receipts = new ArrayList<>();        // List to store user transaction for our receipt
+    List<Receipt> receipts = new ArrayList<>();        // List to store user transaction for our receipt
 
 
     public void run() {
@@ -92,7 +94,6 @@ public class CateringSystemCLI {
         // IF user interface see 100 / 1000 violation, returns $0 to add to quantity - also sends error message
         //ELSE funds are added via Wallet.addMoney
 
-        // try {
         if (fundsToAdd > 100) {
             System.out.println("Amount should be less than $100");
         } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {
@@ -100,9 +101,9 @@ public class CateringSystemCLI {
         } else if (fundsToAdd % 1 != 0) {
             System.out.println("Please enter a whole number amount");
         } else myWallet.addMoney(fundsToAdd);
-        System.out.println(myWallet.getMoneyOnHand()); ///QA LINE
-        auditLog(" ADD MONEY: " + "$" + fundsToAdd + " $" + myWallet.getMoneyOnHand());
-        //     } catch(InputMismatchException ex){
+        String fFundsToAdd = String.format("%,.2f", fundsToAdd);
+        String fCurrentBalance = String.format("%,.2f", (myWallet.getMoneyOnHand()));
+        auditLog(" ADD MONEY: $" + fFundsToAdd + " $" + fCurrentBalance);
     }
 
 
@@ -138,16 +139,17 @@ public class CateringSystemCLI {
 
                 if (costOfProduct <= myWallet.getMoneyOnHand())                     // we have enough money for total cost
                 {                                                                   //we have the money and the qty so ...
-
                     myWallet.subtractMoney(costOfProduct);                              // PAY - subtract Money
-                    inventory.subtractInventory(productCode, quantity);                 // UPDATE inventory
-                    auditLog( " " + quantity + " " + inventory.getDescription(productCode) + " " + productCode + " $" + costOfProduct + " $" + myWallet.getMoneyOnHand());
+                    inventory.subtractInventory(productCode, quantity);
+                    String fCostOfProduct = String.format("%,.2f", costOfProduct);// UPDATE inventory
+                    String fCurrentBalance = String.format("%,.2f", (myWallet.getMoneyOnHand()));
+                    auditLog(" " + quantity + " " + inventory.getDescription(productCode) + " " + productCode + " $" + fCostOfProduct + " $" + fCurrentBalance);
                     printReceipt(productCode, quantity);                                //PRINT RECEIPT
 
 
                 } else
                     System.out.println("The purchase cost is $" + costOfProduct + " which is greater than your current account balance of $" + myWallet.getMoneyOnHand() + ". Please enter more funds or select a lower quantity.");
-                                                                                                                        //^^ERROR - Not enough money
+                //^^ERROR - Not enough money
 
             } else                                                                                                      //ERROR-  Qty ON hand to low
                 System.out.println("Your request of " + quantity + " exceeds our current inventory of " + existingQuantity);
@@ -179,8 +181,6 @@ public class CateringSystemCLI {
         }
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
         receipts.add(thisReceipt);
-     //   calculateChange(myWallet.getMoneyOnHand());
-        auditLog(" GIVE CHANGE: " + "$" + myWallet.getMoneyOnHand() + " $" + myWallet.subtractMoney(myWallet.getMoneyOnHand()));
     }
 
     public void calculateChange(double total)   //Calc Total Amount to return to customer
@@ -196,7 +196,6 @@ public class CateringSystemCLI {
 
 
         List<Receipt> receiptItems = new ArrayList<>();
-        // Receipt receipt = new Receipt(quantity, )
 
         if (total >= 20) {
             change20 = (int) total / 20;
@@ -227,29 +226,21 @@ public class CateringSystemCLI {
         if (total >= 5) {
             changeNick = (int) total / 5;
         }
-        System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + changeDime + ") Dimes, (" + changeNick  + ") Nickels" + "\n");
+        System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + changeDime + ") Dimes, (" + changeNick + ") Nickels" + "\n");
     }
 
-    public void auditLog(String auditString)
-    {
+    public void auditLog(String auditString) {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("log.txt", true)))) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            out.println((dtf.format(now)+ auditString));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");  // sets the format for date / time display
+            Calendar calendar = Calendar.getInstance();  // gets the current calender date and allows us further specify for time down below
+            out.println((simpleDateFormat.format(calendar.getTime()) + auditString));
 
             out.flush();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-     //   System.out.println(dtf.format(now) + "ADD MONEY: " + fundsToAdd +  myWallet.getMoneyOnHand());
-       // System.out.println(dtf.format(now) + "GIVE CHANGE: " + fundsToAdd +  myWallet.getMoneyOnHand());
-        //System.out.println(dtf.format(now) + );
-
     }
-
 
 
 }
