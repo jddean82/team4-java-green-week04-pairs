@@ -6,6 +6,7 @@ import com.techelevator.view.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +38,7 @@ public class CateringSystemCLI {
     FileReader fileReader = new FileReader();
     Inventory inventory = new Inventory();
     List<Receipt> receipts = new ArrayList<>(); // List to store user transaction for our receipt
+    NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
 
 
     public void run() {
@@ -54,12 +56,14 @@ public class CateringSystemCLI {
             if (userSelection.equals(DISPLAY_CATERING_ITEMS)) {
                 displayInventory();
             }
-            if (userSelection.equals(ORDER)) {
+            else if (userSelection.equals(ORDER)) {
                 runSubMenu();
             }
-            if (userSelection.equals(QUIT)) {
+            else if (userSelection.equals(QUIT)) {
                 break;
             }
+            else
+                { System.out.println("Invalid Selection, Please Try Again"+"\n");}
         }
     }
 
@@ -72,19 +76,27 @@ public class CateringSystemCLI {
             //Captures user input on Sub Menu
             String subUserSelection = userInterface.printSubMenu(accountBalance);
 
-            if (subUserSelection.equals(ADD_MONEY)) {
+            if (subUserSelection.equals(ADD_MONEY))
+            {
                 runAddMoney();
 
-            } else if (subUserSelection.equals(SELECT_PRODUCTS)) {
+            }
+            else if (subUserSelection.equals(SELECT_PRODUCTS))
+            {
                 selectProducts();
 
-            } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
+            }
+            else if (subUserSelection.equals(COMPLETE_TRANSACTION))
+            {
                 userInterface.printReceipt(receipts);
                 calculateChange(myWallet.getMoneyOnHand());
                 receipts = new ArrayList<>(); // reinitialize array to receipt for next receipt.
                 myWallet.subtractMoney(myWallet.getMoneyOnHand());
                 break;
             }
+            else
+            { System.out.println("Invalid Selection, Please Try Again"+"\n");}
+
         }
     }
 
@@ -97,7 +109,7 @@ public class CateringSystemCLI {
         if (fundsToAdd > 100) {
             System.out.println("Amount should be less than $100");
         } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {
-            System.out.println("Amount on hand exceeds $1000 Please add less than " + (myWallet.getMoneyOnHand() + fundsToAdd - 1000));
+            System.out.println("Amount added exceeds $1000 Please add less than " + toCurrency.format((myWallet.getMoneyOnHand() + fundsToAdd - 1000)));
         } else if (fundsToAdd % 1 != 0) {
             System.out.println("Please enter a whole number amount");
         } else myWallet.addMoney(fundsToAdd);
@@ -148,7 +160,7 @@ public class CateringSystemCLI {
 
 
                 } else
-                    System.out.println("The purchase cost is $" + costOfProduct + " which is greater than your current account balance of $" + myWallet.getMoneyOnHand() + ". Please enter more funds or select a lower quantity.");
+                    System.out.println("The purchase cost is " + toCurrency.format(costOfProduct) + " which is greater than your current account balance of " + toCurrency.format(myWallet.getMoneyOnHand()) + ". Please enter more funds or select a lower quantity.");
                 //^^ERROR - Not enough money
 
             } else                                                                                                      //ERROR-  Qty ON hand to low
@@ -166,19 +178,21 @@ public class CateringSystemCLI {
         double productPrice = inventory.getPrice(product);
         String productCategory = null;
 
-        // need to change product type to display the whole word on the receipt
+        // need to change product type to display the whole word on the receipt >>><<<ELSE IF ADDED WITH ELSE>>>
         if (productType.equals("A")) {
             productCategory = "Appetizer";
         }
-        if (productType.equals("B")) {
+        else if (productType.equals("B")) {
             productCategory = "Beverage";
         }
-        if (productType.equals("D")) {
+        else if (productType.equals("D")) {
             productCategory = "Dessert";
         }
-        if (productType.equals("E")) {
+        else if (productType.equals("E")) {
             productCategory = "Entree";
         }
+        else
+        {productCategory = "Undefined Product";}
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
         receipts.add(thisReceipt);
     }
