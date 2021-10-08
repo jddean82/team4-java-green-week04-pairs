@@ -1,5 +1,6 @@
 package com.techelevator.view;
 
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,16 +24,19 @@ public class UserInterface {
         return mainInput.nextLine();
     }
 
-    public String printSubMenu() {
+    public String printSubMenu(double accountBalance) {
 
         Scanner subInput = new Scanner(System.in);
+
+        NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
+        toCurrency.format(accountBalance);
 
         // Sub Menu
         System.out.println("\n");
         System.out.println("(1) Add Money");
         System.out.println("(2) Select Products");
         System.out.println("(3) Complete Transaction");
-        System.out.println("Current Account Balance: $" + myWallet.getMoneyOnHand());
+        System.out.println("Current Account Balance: " + toCurrency.format(accountBalance));
 
         System.out.println("\n" + "Please make a sub menu selection: ");
 
@@ -44,7 +48,7 @@ public class UserInterface {
         double amountToAdd; // RETURN VALUE
 
         System.out.println("How much money would you like to add, max is $100");
-        amountToAdd = moneyInput.nextInt();
+        amountToAdd = moneyInput.nextDouble();
         moneyInput.nextLine();
 
         return amountToAdd;
@@ -70,7 +74,7 @@ public class UserInterface {
         System.out.printf("%-15s%-25s%-10s%-5s", "Product Code", "Description", "Qty", "Price");
         System.out.println("\n");
 
-        int quantity;                   //////////////////////////////////////////////////JEFF
+        int quantity;
         String quantityAsString;
 
         for (CateringItem cateringItem : cateringItems) {
@@ -80,8 +84,7 @@ public class UserInterface {
                 quantityAsString = "SOLD OUT";
             else
                 quantityAsString = Integer.toString(quantity);
-
-                                                                                                                            ///changed to quantity
+                                                                              ///changed to quantity
             System.out.println(String.format("%-15s%-25s%-10s$%6.2f", cateringItem.getCode(), cateringItem.getDescription(), quantityAsString, cateringItem.getPrice()));
         }
         System.out.println("\n");

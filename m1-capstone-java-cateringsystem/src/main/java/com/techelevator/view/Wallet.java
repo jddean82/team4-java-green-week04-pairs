@@ -7,9 +7,7 @@ public class Wallet
 
 
     public double addMoney(double moneyIn) {
-
         this.moneyOnHand += moneyIn;
-
         return this.moneyOnHand;
     }
 

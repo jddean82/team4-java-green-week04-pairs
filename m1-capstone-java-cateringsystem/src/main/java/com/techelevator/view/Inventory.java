@@ -12,8 +12,6 @@ public class Inventory {
 
         FileReader inventoryReader = new FileReader();
         cateringInventory = inventoryReader.loadInventory();
-
-
     }
 
     public List<CateringItem> displayInventory() {
@@ -27,7 +25,6 @@ public class Inventory {
         for (String inventoryKey : inventoryKeys) {
             CateringItem item = cateringInventory.get(inventoryKey);
             listOfCateringItems.add(item);
-
         }
 
         return listOfCateringItems;
