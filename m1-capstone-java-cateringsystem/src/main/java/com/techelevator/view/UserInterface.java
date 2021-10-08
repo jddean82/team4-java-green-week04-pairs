@@ -11,6 +11,7 @@ public class UserInterface {
     // kind of looks like a good place to write some code if you ask me ;-)
 
     Wallet myWallet = new Wallet(); ////////////////MOVE TO MAIN ?
+    NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
 
     public String printMainMenu() {
 
@@ -30,7 +31,7 @@ public class UserInterface {
 
         Scanner subInput = new Scanner(System.in);
 
-        NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
+        //NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
         toCurrency.format(accountBalance);
 
         // Sub Menu

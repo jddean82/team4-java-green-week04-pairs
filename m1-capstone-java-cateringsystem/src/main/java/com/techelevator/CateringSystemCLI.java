@@ -6,6 +6,7 @@ import com.techelevator.view.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +34,7 @@ public class CateringSystemCLI {
     Wallet myWallet = new Wallet();                        //used in subMenu
     Inventory inventory = new Inventory();
     List<Receipt> receipts = new ArrayList<>(); // List to store user transaction for our receipt
+    NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
 
 
     public void run() {
@@ -46,12 +48,14 @@ public class CateringSystemCLI {
             if (userSelection.equals(DISPLAY_CATERING_ITEMS)) {
                 displayInventory();
             }
-            if (userSelection.equals(ORDER)) {
+            else if (userSelection.equals(ORDER)) {
                 runSubMenu();
             }
-            if (userSelection.equals(QUIT)) {
+            else if (userSelection.equals(QUIT)) {
                 break;
             }
+            else
+                { System.out.println("Invalid Selection, Please Try Again"+"\n");}
         }
     }
 
@@ -64,19 +68,28 @@ public class CateringSystemCLI {
             //Captures user input on Sub Menu
             String subUserSelection = userInterface.printSubMenu(accountBalance);
 
+
             if (subUserSelection.equals(ADD_MONEY)) {
                 addMoney();
 
-            } else if (subUserSelection.equals(SELECT_PRODUCTS)) {
+
+            }
+            else if (subUserSelection.equals(SELECT_PRODUCTS))
+            {
                 selectProducts();
 
-            } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
+            }
+            else if (subUserSelection.equals(COMPLETE_TRANSACTION))
+            {
                 userInterface.printReceipt(receipts);
                 calculateChange(myWallet.getMoneyOnHand());
                 receipts = new ArrayList<>(); // reinitialize array to receipt for next receipt.
                 myWallet.subtractMoney(myWallet.getMoneyOnHand());
                 break;
             }
+            else
+            { System.out.println("Invalid Selection, Please Try Again"+"\n");}
+
         }
     }
 
@@ -99,6 +112,7 @@ public class CateringSystemCLI {
         } else  myWallet.addMoney(fundsToAdd);                           // add new funds to current balance.
 
         // add action to audit log
+
         String fFundsToAdd = String.format("%,.2f", fundsToAdd);
         String fCurrentBalance = String.format("%,.2f", (myWallet.getMoneyOnHand()));
         auditLog(" ADD MONEY: $" + fFundsToAdd + " $" + fCurrentBalance);
@@ -150,7 +164,7 @@ public class CateringSystemCLI {
 
 
                 } else
-                    System.out.println("The purchase cost is $" + costOfProduct + " which is greater than your current account balance of $" + myWallet.getMoneyOnHand() + ". Please enter more funds or select a lower quantity.");
+                    System.out.println("The purchase cost is " + toCurrency.format(costOfProduct) + " which is greater than your current account balance of " + toCurrency.format(myWallet.getMoneyOnHand()) + ". Please enter more funds or select a lower quantity.");
                 //^^ERROR - Not enough money
 
             } else                                                                                                      //ERROR-  Qty ON hand to low
@@ -168,21 +182,29 @@ public class CateringSystemCLI {
         double productPrice = inventory.getPrice(product);
         String productCategory = null;
 
+
+        // need to change product type to display the whole word on the receipt >>><<<ELSE IF ADDED WITH ELSE>>>
+
         // update product type to full type for display on receipt.
+
         if (productType.equals("A")) {
             productCategory = "Appetizer";
         }
-        if (productType.equals("B")) {
+        else if (productType.equals("B")) {
             productCategory = "Beverage";
         }
-        if (productType.equals("D")) {
+        else if (productType.equals("D")) {
             productCategory = "Dessert";
         }
-        if (productType.equals("E")) {
+        else if (productType.equals("E")) {
             productCategory = "Entree";
         }
+        else
+        {productCategory = "Undefined Product";}
+        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
+
         // create an instance of a receipt then add that instance to an array
-        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
+
         receipts.add(thisReceipt);
     }
 
