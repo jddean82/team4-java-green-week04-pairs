@@ -36,7 +36,7 @@ public class CateringSystemCLI {
     Wallet myWallet = new Wallet();                        //used in subMenu
     FileReader fileReader = new FileReader();
     Inventory inventory = new Inventory();
-    List<Receipt> receipts = new ArrayList<>();        // List to store user transaction for our receipt
+    List<Receipt> receipts = new ArrayList<>(); // List to store user transaction for our receipt
 
 
     public void run() {
@@ -179,7 +179,7 @@ public class CateringSystemCLI {
         if (productType.equals("E")) {
             productCategory = "Entree";
         }
-        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
+        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
         receipts.add(thisReceipt);
     }
 
@@ -227,6 +227,9 @@ public class CateringSystemCLI {
             changeNick = (int) total / 5;
         }
         System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + changeDime + ") Dimes, (" + changeNick + ") Nickels" + "\n");
+        String fProductPrice = String.format("%,.2f", myWallet.getMoneyOnHand());
+        String fCurrentBalance = String.format("%,.2f", myWallet.subtractMoney(myWallet.getMoneyOnHand()));
+        auditLog(" GIVE CHANGE: $" + fProductPrice + " $" + fCurrentBalance);
     }
 
     public void auditLog(String auditString) {

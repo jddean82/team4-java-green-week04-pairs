@@ -45,7 +45,7 @@ public class UserInterface {
         return subInput.nextLine();
     }
 
-    public double addFunds() {
+    public double addFunds() {  // ask use for amount they would like to add
         Scanner moneyInput = new Scanner(System.in);
         double amountToAdd; // RETURN VALUE
 
@@ -57,13 +57,13 @@ public class UserInterface {
 
     }
 
-    public String selectProductCode() {
+    public String selectProductCode() { // ask user for product code for item to purchse
         Scanner myScanner = new Scanner(System.in);
         System.out.println("Please enter the desired product code");
         return myScanner.nextLine();
     }
 
-    public int selectQuantity() {
+    public int selectQuantity() {  // ask user for a quantity to purchase
         Scanner myScanner = new Scanner(System.in);
         System.out.println("Please enter quantity");
         int qtyInput = myScanner.nextInt();
@@ -93,7 +93,7 @@ public class UserInterface {
 
     }
 
-    public void printReceipt(List<Receipt> receipts)
+    public void printReceipt(List<Receipt> receipts)  // loop through an array of receipts and print out a display of each receipt object
     {
         double totalCost = 0;
         System.out.println("\n");
