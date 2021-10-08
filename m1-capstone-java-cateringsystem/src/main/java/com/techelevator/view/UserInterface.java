@@ -104,6 +104,9 @@ public class UserInterface {
         String totalCostFormat = String.format("Total: $%,.2f", totalCost);
         System.out.println(totalCostFormat);
         System.out.println("\n");
+    }
 
+    public void printErrorMessage(String message){
+        System.out.println(message);
     }
 }
