@@ -107,7 +107,7 @@ public class UserInterface {
         System.out.println("\n");
     }
 
-    public void printErrorMessage(String message){
+    public void printMessage(String message){
         System.out.println(message);
     }
 }

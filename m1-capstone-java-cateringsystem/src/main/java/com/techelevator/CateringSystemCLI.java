@@ -47,18 +47,15 @@ public class CateringSystemCLI {
 
             if (userSelection.equals(DISPLAY_CATERING_ITEMS)) {
                 displayInventory();
-            }
-            else if (userSelection.equals(ORDER)) {
+            } else if (userSelection.equals(ORDER)) {
                 runSubMenu();
-            }
-            else if (userSelection.equals(QUIT)) {
+            } else if (userSelection.equals(QUIT)) {
                 break;
+            } else {
+                userInterface.printMessage("Invalid Selection, Please Try Again" + "\n");
             }
-            else
-                { System.out.println("Invalid Selection, Please Try Again"+"\n");}
         }
     }
-
     /////////////////////////////////////////////////SUB MENU
     private void runSubMenu() {
 
@@ -68,28 +65,21 @@ public class CateringSystemCLI {
             //Captures user input on Sub Menu
             String subUserSelection = userInterface.printSubMenu(accountBalance);
 
-
             if (subUserSelection.equals(ADD_MONEY)) {
                 addMoney();
 
-
-            }
-            else if (subUserSelection.equals(SELECT_PRODUCTS))
-            {
+            } else if (subUserSelection.equals(SELECT_PRODUCTS)) {
                 selectProducts();
 
-            }
-            else if (subUserSelection.equals(COMPLETE_TRANSACTION))
-            {
+            } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
                 userInterface.printReceipt(receipts);
                 calculateChange(myWallet.getMoneyOnHand());
                 receipts = new ArrayList<>(); // reinitialize array to receipt for next receipt.
                 myWallet.subtractMoney(myWallet.getMoneyOnHand());
                 break;
+            } else {
+                userInterface.printMessage("Invalid Selection, Please Try Again" + "\n");
             }
-            else
-            { System.out.println("Invalid Selection, Please Try Again"+"\n");}
-
         }
     }
 
@@ -98,17 +88,21 @@ public class CateringSystemCLI {
         double fundsToAdd = userInterface.addFunds(); //Call user interface, get funds, return quantity (UI screens for 100 / 1000 limits)
 
 
-        if (fundsToAdd > 100) {                                         // check if amount added is > $100, return error message
-            System.out.println("Amount should be less than $100");
+        if (fundsToAdd > 100) {// check if amount added is > $100, return error message
+            userInterface.printMessage("Amount should be less than $100");
+
 
         } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {   // check if amount added  + current balance  >$1000, return error message
-            System.out.println("Amount on hand exceeds $1000, Please add less than $" + (myWallet.getMoneyOnHand() + fundsToAdd - 1000));
+            userInterface.printMessage("Amount on hand exceeds $1000, Please add less than $" + (myWallet.getMoneyOnHand() + fundsToAdd - 1000) + ".");
+
 
         } else if (fundsToAdd % 1 != 0) {                               // check if amount added is a whole number, return error message
-            System.out.println("Please enter a whole number amount.");
+            userInterface.printMessage("Please enter a whole number amount.");
+
 
         } else if (fundsToAdd < 0){                                     // check if amount added is positive, return error message
-            System.out.println("Cannot remove funds from current balance, please enter a positive amount to add");
+            userInterface.printMessage("Cannot remove funds from current balance, please enter a positive amount to add.");
+
         } else  myWallet.addMoney(fundsToAdd);                           // add new funds to current balance.
 
         // add action to audit log
@@ -142,9 +136,9 @@ public class CateringSystemCLI {
             existingQuantity = inventory.getQty(productCode);
 
             if (existingQuantity <= 0)
-                System.out.println("Sorry, we are all out of that product.");                           //  TEST OUT OF PRODUCT, Do NOTHING
+                userInterface.printMessage("Sorry, we are all out of that product.");                   // TEST OUT OF PRODUCT, Do NOTHING
 
-            else if (existingQuantity >= quantity)                                                      /////Qty ON HAND > REQUESTED QTY - EXECUTE MAIN CODE
+            else if (existingQuantity >= quantity)                                                      // Qty ON HAND > REQUESTED QTY - EXECUTE MAIN CODE
             {
 
                 double costOfProduct = quantity * inventory.getPrice(productCode); //Calc total Cost
@@ -164,15 +158,17 @@ public class CateringSystemCLI {
 
 
                 } else
-                    System.out.println("The purchase cost is " + toCurrency.format(costOfProduct) + " which is greater than your current account balance of " + toCurrency.format(myWallet.getMoneyOnHand()) + ". Please enter more funds or select a lower quantity.");
-                //^^ERROR - Not enough money
+                    userInterface.printMessage("The purchase cost is " + toCurrency.format(costOfProduct) + " which is greater than your current account balance of " + toCurrency.format(myWallet.getMoneyOnHand()) + ". Please enter more funds or select a lower quantity.");
+                    //^^ERROR - Not enough money
 
-            } else                                                                                                      //ERROR-  Qty ON hand to low
-                System.out.println("Your request of " + quantity + " exceeds our current inventory of " + existingQuantity);
+            } else
+                userInterface.printMessage("Your request of " + quantity + " exceeds our current inventory of " + existingQuantity);  //ERROR-  Qty ON hand to low
+
 
 
         } else
-            System.out.println("Please enter a valid Product Code, " + productCode + " isn't a valid.");               //ERROR - No such Product
+            userInterface.printMessage( productCode + " is not valid code, please enter code exactly as shown.");       //ERROR - No such Product
+
 
     }
 
@@ -199,18 +195,16 @@ public class CateringSystemCLI {
         else if (productType.equals("E")) {
             productCategory = "Entree";
         }
-        else
+        else   // create an instance of a receipt then add that instance to an array
         {productCategory = "Undefined Product";}
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
 
-        // create an instance of a receipt then add that instance to an array
 
         receipts.add(thisReceipt);
     }
 
     public void calculateChange(double total)   //Calc Total Amount to return to customer
     {
-
         int change20 = 0;
         int change10 = 0;
         int change5 = 0;
@@ -251,7 +245,7 @@ public class CateringSystemCLI {
         if (total >= 5) {
             changeNick = (int) total / 5;
         }
-        System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + changeDime + ") Dimes, (" + changeNick + ") Nickels" + "\n");
+            userInterface.printMessage("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + changeDime + ") Dimes, (" + changeNick + ") Nickels" + "\n");
 
         // add to audit log
         String fProductPrice = String.format("%,.2f", myWallet.getMoneyOnHand());
@@ -274,8 +268,5 @@ public class CateringSystemCLI {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
-
 }
