@@ -116,27 +116,37 @@ public class CateringSystemCLI {
 
         productCode = userInterface.selectProductCode();
 
-        if (inventory.hasProductKey(productCode))
+        if (inventory.hasProductKey(productCode))                                                       //IF PRODUCT CODE EXISTS... EXECUTE - ELSE ERROR
         {
             quantity = userInterface.selectQuantity();
             existingQuantity = inventory.getInventory(productCode);
 
             if (existingQuantity <= 0)
-                System.out.println("Sorry, we are all out of that product.");
-            else if (existingQuantity >= quantity) {
-                inventory.subtractInventory(productCode, quantity);
-                printReceipt(productCode, quantity);
-                double costOfProduct = quantity * inventory.getPrice(productCode);
-                if (costOfProduct <= myWallet.getMoneyOnHand()) {
-                    myWallet.subtractMoney(costOfProduct);
+                System.out.println("Sorry, we are all out of that product.");                           //  TEST OUT OF PRODUCT, Do NOTHING
+
+            else if (existingQuantity >= quantity)                                                      /////Qty ON HAND > REQUESTED QTY - EXECUTE MAIN CODE
+            {
+
+                double costOfProduct = quantity * inventory.getPrice(productCode); //Calc total Cost
+
+                if (costOfProduct <= myWallet.getMoneyOnHand())                     // we have enough money for total cost
+                {                                                                   //we have the money and the qty so ...
+
+                    myWallet.subtractMoney(costOfProduct);                              // PAY - subtract Money
+                    inventory.subtractInventory(productCode, quantity);                 // UPDATE inventory
+                    printReceipt(productCode, quantity);                                //PRINT RECEIPT
+
+
                 } else
                     System.out.println("The purchase cost is $" + costOfProduct + " which is greater than your current account balance of $" + myWallet.getMoneyOnHand() + ". Please enter more funds or select a lower quantity.");
-            } else
+                                                                                                                        //^^ERROR - Not enough money
+
+            } else                                                                                                      //ERROR-  Qty ON hand to low
                 System.out.println("Your request of " + quantity + " exceeds our current inventory of " + existingQuantity);
+
+
         } else
-
-
-            System.out.println("Please enter a valid Product Code, " + productCode + " isn't a valid.");
+            System.out.println("Please enter a valid Product Code, " + productCode + " isn't a valid.");               //ERROR - No such Product
 
     }
 
@@ -211,5 +221,11 @@ public class CateringSystemCLI {
         }
         System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + ") Dimes, (" + changeDime + ") Nickels, (" + changeNick + ")" + "\n");
     }
+
+    public void auditLog()
+    {
+
+    }
+
 
 }
