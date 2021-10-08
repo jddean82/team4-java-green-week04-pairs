@@ -1,4 +1,5 @@
 package com.techelevator;
+import com.techelevator.view.CateringItem;
 import com.techelevator.view.Wallet;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,6 +10,7 @@ import java.util.*;
 public class test_Wallet
 {
     private Wallet  myWallet;
+    private CateringSystemCLI cateringSystemCLI;
 
     @Before
     public void testSetup() { myWallet = new Wallet();}
@@ -32,6 +34,15 @@ public class test_Wallet
 
 
     }
+
+/*    public void test_run_add_money(){
+
+        double expectedBalance = 30;
+        Assert.assertEquals(null,expectedBalance,cateringSystemCLI.runAddMoney(),.001);
+
+    }
+*/
+
 
 
 }

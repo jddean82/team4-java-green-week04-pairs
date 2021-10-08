@@ -4,25 +4,24 @@ import java.util.*;
 
 public class Inventory {
 
-    private int qtyOnHand;
-    private String productCode;
+ //   private int qtyOnHand;
+ //  private String productCode;
     private Map<String, CateringItem> cateringInventory;
 
-    public Inventory() {
+    public Inventory() {   // create a map of all inventory items from a file.
 
         FileReader inventoryReader = new FileReader();
         cateringInventory = inventoryReader.loadInventory();
     }
 
-    public List<CateringItem> displayInventory() {
+    public List<CateringItem> displayInventory() {  // create a list of inventory items, send list to UI to print in inventory display.
 
         List<CateringItem> listOfCateringItems = new ArrayList<>();
 
-
-        Set<String> inventoryKeys = new HashSet<String>();
+        Set<String> inventoryKeys = new HashSet<String>();  // create a set of keys from inventory map
         inventoryKeys = cateringInventory.keySet();
 
-        for (String inventoryKey : inventoryKeys) {
+        for (String inventoryKey : inventoryKeys) {    //loop through keys and add each inventory item to inventory list
             CateringItem item = cateringInventory.get(inventoryKey);
             listOfCateringItems.add(item);
         }
@@ -44,7 +43,7 @@ public class Inventory {
 
     }
 
-    public int getInventory(String productCode)
+    public int getQty(String productCode)
     {
         int quantity=0;
         CateringItem  cateringItem;
