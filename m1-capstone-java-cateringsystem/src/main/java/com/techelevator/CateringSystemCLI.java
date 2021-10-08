@@ -129,6 +129,5 @@ public class CateringSystemCLI {
 
        List<Receipt> receiptItems = new ArrayList<>();
       // Receipt receipt = new Receipt(quantity, )
-
     }
 }
