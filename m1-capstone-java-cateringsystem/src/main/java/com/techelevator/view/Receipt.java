@@ -36,7 +36,8 @@ public class Receipt {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public double setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+        return totalPrice;
     }
 }
