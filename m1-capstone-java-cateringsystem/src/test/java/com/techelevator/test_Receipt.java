@@ -24,6 +24,7 @@ public class test_Receipt
         Assert.assertEquals("Beverage",myReceipt.getDescription());
         Assert.assertEquals(null,5,myReceipt.getPrice(),.001);
         Assert.assertEquals(null,25,myReceipt.getTotalPrice(),.001);
+
         Assert.assertEquals(null,50, myReceipt.setTotalPrice(50.00),.001);
 
 
