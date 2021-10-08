@@ -76,12 +76,12 @@ public class UserInterface {
 
     }
 
-    public void printScreen(List<CateringItem> cateringItems){
-        int quantity = selectQuantity();
-        String productCode = selectProduct();
-
-        for (CateringItem cateringItem : cateringItems) {
-          //  System.out.println(quantity, cateringItem.getType(), cateringItem.getDescription(), cateringItem.getPrice(), (cateringItem.getPrice() * quantity));
+    public void printReceipt(List<Receipt> receipts)
+    {
+        for(Receipt receipt:receipts)
+        {
+            System.out.println(receipt.getQty() +"\t" + receipt.getType()+"\t" +receipt.getDescription()+"\t" +receipt.getPrice()+"\t" + receipt.getTotalPrice());
         }
+
     }
 }

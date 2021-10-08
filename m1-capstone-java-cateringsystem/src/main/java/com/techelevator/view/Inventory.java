@@ -61,8 +61,32 @@ public class Inventory {
 
         String type;
         CateringItem cateringItem;
+        cateringItem = cateringInventory.get(productCode);
+        type = cateringItem.getType();
 
-        return "test";
+        return type;
+
+
+    }
+
+    public String getDescription(String productCode){
+
+        String description;
+        CateringItem cateringItem;
+        cateringItem = cateringInventory.get(productCode);
+        description = cateringItem.getDescription();
+
+        return description;
+    }
+
+    public double getPrice(String productCode){
+
+        double price;
+        CateringItem cateringItem;
+        cateringItem = cateringInventory.get(productCode);
+        price = cateringItem.getPrice();
+
+        return price;
     }
 
 }

@@ -10,14 +10,14 @@ import java.util.List;
 public class CateringSystemCLI {
 
     //MAIN MENU
-    private static final String DISPLAY_CATERING_ITEMS = "1";
-    private static final String ORDER = "2";
-    private static final String QUIT = "3";
+    private static final String DISPLAY_CATERING_ITEMS = "1" ;
+    private static final String ORDER = "2" ;
+    private static final String QUIT = "3" ;
 
     //SUBMENU
-    private static final String ADD_MONEY = "1";
-    private static final String SELECT_PRODUCTS = "2";
-    private static final String COMPLETE_TRANSACTION = "3";
+    private static final String ADD_MONEY = "1" ;
+    private static final String SELECT_PRODUCTS = "2" ;
+    private static final String COMPLETE_TRANSACTION = "3" ;
 
 
     public static void main(String[] args) {
@@ -29,7 +29,8 @@ public class CateringSystemCLI {
     Wallet myWallet = new Wallet();                        //used in subMenu
     FileReader fileReader = new FileReader();
     Inventory inventory = new Inventory();
-    Receipt receipt;
+    List<Receipt> receipts = new ArrayList<>();           // List to store user transaction for our receipt
+
 
     public void run() {
 
@@ -67,8 +68,10 @@ public class CateringSystemCLI {
             } else if (subUserSelection.equals(SELECT_PRODUCTS)) {
                 selectProducts();
 
+
             } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
-                System.out.println(COMPLETE_TRANSACTION);
+                userInterface.printReceipt(receipts);
+                calculateChange(2);/////////////////////////////////////////// CHANGE THIS
                 break;
             }
         }
@@ -101,7 +104,7 @@ public class CateringSystemCLI {
         userInterface.displayInventory(cateringItemList);
     }
 
-    public void selectProducts(){
+    public void selectProducts() {
         displayInventory();
         int quantity;
         int existingQuantity;
@@ -109,25 +112,111 @@ public class CateringSystemCLI {
 
 
         product = userInterface.selectProduct();
-        quantity =userInterface.selectQuantity();
-        existingQuantity= inventory.getInventory(product);
+        quantity = userInterface.selectQuantity();
+        existingQuantity = inventory.getInventory(product);
 
-        if(existingQuantity <= 0)
-                System.out.println("Sorry, We are all out of that product.");
-        else if(existingQuantity>= quantity)
-        {
+        if (existingQuantity <= 0)
+            System.out.println("Sorry, We are all out of that product.");
+        else if (existingQuantity >= quantity) {
             inventory.subtractInventory(product, quantity);
-        }
-        else
-            System.out.println("Your request of " + quantity + " Exceeds what we have:" +existingQuantity );
+            printReceipt(product, quantity);
+        } else
+            System.out.println("Your request of " + quantity + " Exceeds what we have:" + existingQuantity);
+
+
     }
 
 
-    public void printScreen(){
-       String product = userInterface.selectProduct();
-       int quantity =userInterface.selectQuantity();
+    public void printReceipt(String product, int quantity) {
+        String productType = inventory.getType(product);
+        String productDescription = inventory.getDescription(product);
+        double productPrice = inventory.getPrice(product);
+        String productCategory=null;
+
+
+        if (productType.equals("A")) {
+            productCategory = "Appetizer" ;
+        }
+        if (productType.equals("B")) {
+            productCategory = "Beverage" ;
+        }
+        if (productType.equals("D")) {
+            productCategory = "Dessert" ;
+        }
+        if (productType.equals("E")) {
+            productCategory = "Entree" ;
+        }
+
+        Receipt thisReceipt = new Receipt(quantity,productCategory,productDescription,productPrice,productPrice*quantity);
+        receipts.add(thisReceipt);
+
+    }
+
+    public void calculateChange(double total)   //Calc Total Amount to return to customer
+    {
+
+        total = 76.40; /////////////////////////////////CHANGE THIS < REMOVE
+
+        int change20 = 0;
+        int change10 = 0;
+        int change5 = 0;
+        int change1 = 0;
+        int changeQtr = 0;
+        int changeDime = 0;
+        int changeNick = 0;
+
 
        List<Receipt> receiptItems = new ArrayList<>();
       // Receipt receipt = new Receipt(quantity, )
+
+
+        if(total>=20)
+        {
+            change20 = (int)total / 20;
+            total = total -(20 * change20);
+        }
+        if(total>=10)
+        {
+            change10 = (int)total / 10;
+            total = total -(10* change10);
+        }
+
+        if(total>=5)
+        {
+            change5 = (int)total / 5;
+            total = total -(5 * change5);
+        }
+
+        if(total>=1)
+        {
+            change1 = (int)total / 1;
+            total = total -(change1);
+
+        }
+        total = total *100;
+
+
+        if(total>=25)
+        {
+            changeQtr = (int)total / 25;
+            total = total -(25 * changeQtr);
+        }
+
+        if(total>=10)
+        {
+            changeDime = (int)total / 10;
+            total = total -(10 * changeDime);
+        }
+
+        if(total>=5)
+        {
+            changeNick = (int)total / 5;
+
+        }
+
+        System.out.println(" You Received(" +change20 +") Twenties, ("+  change10 + ") Tens, (" +  change5+ ") Fives, ("+  change1+") Ones, ("+changeQtr +") Quarters, ("+ ") Dimes, ("+ changeDime +") Nickels, ("+ changeNick +")"+"\n");
+
+
     }
+
 }
