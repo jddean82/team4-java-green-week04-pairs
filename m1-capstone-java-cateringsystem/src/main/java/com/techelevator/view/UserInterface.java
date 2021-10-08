@@ -28,6 +28,7 @@ public class UserInterface {
         Scanner subInput = new Scanner(System.in);
 
         // Sub Menu
+        System.out.println("\n");
         System.out.println("(1) Add Money");
         System.out.println("(2) Select Products");
         System.out.println("(3) Complete Transaction");
@@ -50,7 +51,7 @@ public class UserInterface {
 
     }
 
-    public String selectProduct() {
+    public String selectProductCode() {
         Scanner myScanner = new Scanner(System.in);
         System.out.println("Please enter the desired product code");
         return myScanner.nextLine();
@@ -70,7 +71,7 @@ public class UserInterface {
         System.out.println("\n");
 
         for (CateringItem cateringItem : cateringItems) {
-            System.out.println(String.format("%-15s%-25s%-12s$%5.2f", cateringItem.getCode(), cateringItem.getDescription(), cateringItem.getQty(), cateringItem.getPrice()));
+            System.out.println(String.format("%-15s%-25s%-12s$%6.2f", cateringItem.getCode(), cateringItem.getDescription(), cateringItem.getQty(), cateringItem.getPrice()));
         }
         System.out.println("\n");
 
@@ -78,10 +79,15 @@ public class UserInterface {
 
     public void printReceipt(List<Receipt> receipts)
     {
+        double totalCost = 0;
+        System.out.println("\n");
         for(Receipt receipt:receipts)
-        {
-            System.out.println(receipt.getQty() +"\t" + receipt.getType()+"\t" +receipt.getDescription()+"\t" +receipt.getPrice()+"\t" + receipt.getTotalPrice());
-        }
+        { System.out.println(String.format("%-5d%-12s%-24s$%6.2f  $%6.2f", receipt.getQty() , receipt.getType() , receipt.getDescription(), +receipt.getPrice(), receipt.getTotalPrice()));
+            totalCost += receipt.getTotalPrice();
+        } System.out.println("\n");
+        String totalCostFormat = String.format("Total: $%,.2f", totalCost);
+        System.out.println(totalCostFormat);
+        System.out.println("\n");
 
     }
 }

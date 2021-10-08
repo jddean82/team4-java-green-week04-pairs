@@ -108,18 +108,18 @@ public class CateringSystemCLI {
         displayInventory();
         int quantity;
         int existingQuantity;
-        String product;
+        String productCode;
 
 
-        product = userInterface.selectProduct();
+        productCode = userInterface.selectProductCode();
         quantity = userInterface.selectQuantity();
-        existingQuantity = inventory.getInventory(product);
+        existingQuantity = inventory.getInventory(productCode);
 
         if (existingQuantity <= 0)
             System.out.println("Sorry, We are all out of that product.");
         else if (existingQuantity >= quantity) {
-            inventory.subtractInventory(product, quantity);
-            printReceipt(product, quantity);
+            inventory.subtractInventory(productCode, quantity);
+            printReceipt(productCode, quantity);
         } else
             System.out.println("Your request of " + quantity + " Exceeds what we have:" + existingQuantity);
 
@@ -214,8 +214,7 @@ public class CateringSystemCLI {
 
         }
 
-        System.out.println(" You Received(" +change20 +") Twenties, ("+  change10 + ") Tens, (" +  change5+ ") Fives, ("+  change1+") Ones, ("+changeQtr +") Quarters, ("+ ") Dimes, ("+ changeDime +") Nickels, ("+ changeNick +")"+"\n");
-
+        System.out.println("You Received (" +change20 +") Twenties, ("+  change10 + ") Tens, (" +  change5+ ") Fives, ("+  change1+") Ones, ("+changeQtr +") Quarters, ("+ ") Dimes, ("+ changeDime +") Nickels, ("+ changeNick +")"+"\n");
 
     }
 
