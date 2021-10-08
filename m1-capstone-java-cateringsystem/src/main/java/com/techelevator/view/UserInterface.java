@@ -7,7 +7,7 @@ public class UserInterface {
 
     // kind of looks like a good place to write some code if you ask me ;-)
 
-    Wallet myWallet = new Wallet();
+    Wallet myWallet = new Wallet(); ////////////////MOVE TO MAIN ?
 
     public String printMainMenu() {
 
@@ -67,11 +67,22 @@ public class UserInterface {
 
     public void displayInventory(List<CateringItem> cateringItems) {
 
-        System.out.printf("%-15s%-25s%-12s%-5s", "Product Code", "Description", "Qty", "Price");
+        System.out.printf("%-15s%-25s%-22s%-5s", "Product Code", "Description", "Qty", "Price");
         System.out.println("\n");
 
+        int quantity;                   //////////////////////////////////////////////////JEFF
+        String quantityAsString;
+
         for (CateringItem cateringItem : cateringItems) {
-            System.out.println(String.format("%-15s%-25s%-12s$%6.2f", cateringItem.getCode(), cateringItem.getDescription(), cateringItem.getQty(), cateringItem.getPrice()));
+           quantity =  cateringItem.getQty();      //GET QTY TO TEST FOR 0 IF 0 insufficient stock
+
+            if(quantity == 0)
+                quantityAsString = "insufficient stock";
+            else
+                quantityAsString = Integer.toString(quantity);
+
+                                                                                                                            ///changed to quantity
+            System.out.println(String.format("%-15s%-25s%-22s$%6.2f", cateringItem.getCode(), cateringItem.getDescription(), quantityAsString, cateringItem.getPrice()));
         }
         System.out.println("\n");
 

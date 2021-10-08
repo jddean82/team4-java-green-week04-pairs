@@ -89,4 +89,10 @@ public class Inventory {
         return price;
     }
 
+    //////////////////////////////////JEFF
+    public boolean hasProductKey(String productCode)
+    {
+        return cateringInventory.containsKey(productCode);
+    }
+
 }
