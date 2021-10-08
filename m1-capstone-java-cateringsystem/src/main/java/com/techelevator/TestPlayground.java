@@ -5,6 +5,7 @@ package com.techelevator;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class TestPlayground
     public static void main(String[] args) {
 
 
-        ////FILE OUTPUT
+        //////////////////////////////////////////////////////////////FILE OUTPUT
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("example.txt", true)))) {
 
             out.println("This is sample text");
@@ -26,9 +27,14 @@ public class TestPlayground
         }
         double number = 9.99;
 
+
+        /////////////////////////////////////////////////////////////MONEY
         NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
         toCurrency.format(number);
         System.out.println(toCurrency.format(number));
+
+
+        ///////////////////////////////////////AUDIT
 
 
         ///CHANGE
