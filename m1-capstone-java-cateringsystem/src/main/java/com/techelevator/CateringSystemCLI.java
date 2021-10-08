@@ -10,14 +10,14 @@ import java.util.List;
 public class CateringSystemCLI {
 
     //MAIN MENU
-    private static final String DISPLAY_CATERING_ITEMS = "1" ;
-    private static final String ORDER = "2" ;
-    private static final String QUIT = "3" ;
+    private static final String DISPLAY_CATERING_ITEMS = "1";
+    private static final String ORDER = "2";
+    private static final String QUIT = "3";
 
     //SUBMENU
-    private static final String ADD_MONEY = "1" ;
-    private static final String SELECT_PRODUCTS = "2" ;
-    private static final String COMPLETE_TRANSACTION = "3" ;
+    private static final String ADD_MONEY = "1";
+    private static final String SELECT_PRODUCTS = "2";
+    private static final String COMPLETE_TRANSACTION = "3";
 
 
     public static void main(String[] args) {
@@ -29,7 +29,7 @@ public class CateringSystemCLI {
     Wallet myWallet = new Wallet();                        //used in subMenu
     FileReader fileReader = new FileReader();
     Inventory inventory = new Inventory();
-    List<Receipt> receipts = new ArrayList<>();           // List to store user transaction for our receipt
+    List<Receipt> receipts = receipts = new ArrayList<>();        // List to store user transaction for our receipt
 
 
     public void run() {
@@ -55,7 +55,8 @@ public class CateringSystemCLI {
             }
         }
     }
-        /////////////////////////////////////////////////SUB MENU
+
+    /////////////////////////////////////////////////SUB MENU
     private void runSubMenu() {
 
         while (true) {
@@ -69,10 +70,10 @@ public class CateringSystemCLI {
             } else if (subUserSelection.equals(SELECT_PRODUCTS)) {
                 selectProducts();
 
-
             } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
                 userInterface.printReceipt(receipts);
                 calculateChange(2);///<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>> CHANGE THIS
+                receipts = new ArrayList<>(); ///// SARAH
                 break;
             }
         }
@@ -114,20 +115,19 @@ public class CateringSystemCLI {
 
         productCode = userInterface.selectProductCode();
 
-        if(inventory.hasProductKey(productCode)) {
+        if (inventory.hasProductKey(productCode)) {
             quantity = userInterface.selectQuantity();
             existingQuantity = inventory.getInventory(productCode);
 
             if (existingQuantity <= 0)
-                System.out.println("Sorry, We are all out of that product.");
+                System.out.println("Sorry, we are all out of that product.");
             else if (existingQuantity >= quantity) {
                 inventory.subtractInventory(productCode, quantity);
                 printReceipt(productCode, quantity);
             } else
-                System.out.println("Your request of " + quantity + " Exceeds what we have:" + existingQuantity);
-        }
-        else/////////////////////////////JEFF
-            System.out.println("Please Enter A valid Product Code "+ productCode + " isn't a valid product code");
+                System.out.println("Your request of " + quantity + " exceeds what we have:" + existingQuantity);
+        } else/////////////////////////////JEFF
+            System.out.println("Please enter a valid Product Code, " + productCode + " isn't a valid.");
 
     }
 
@@ -136,23 +136,23 @@ public class CateringSystemCLI {
         String productType = inventory.getType(product);
         String productDescription = inventory.getDescription(product);
         double productPrice = inventory.getPrice(product);
-        String productCategory=null;
+        String productCategory = null;
 
-
+        // need to change product type to display the whole word on the receipt
         if (productType.equals("A")) {
-            productCategory = "Appetizer" ;
+            productCategory = "Appetizer";
         }
         if (productType.equals("B")) {
-            productCategory = "Beverage" ;
+            productCategory = "Beverage";
         }
         if (productType.equals("D")) {
-            productCategory = "Dessert" ;
+            productCategory = "Dessert";
         }
         if (productType.equals("E")) {
-            productCategory = "Entree" ;
+            productCategory = "Entree";
         }
 
-        Receipt thisReceipt = new Receipt(quantity,productCategory,productDescription,productPrice,productPrice*quantity);
+        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
         receipts.add(thisReceipt);
 
     }
@@ -171,49 +171,42 @@ public class CateringSystemCLI {
         int changeNick = 0;
 
 
-       List<Receipt> receiptItems = new ArrayList<>();
-      // Receipt receipt = new Receipt(quantity, )
+        List<Receipt> receiptItems = new ArrayList<>();
+        // Receipt receipt = new Receipt(quantity, )
 
-        if(total>=20)
-        {
-            change20 = (int)total / 20;
-            total = total -(20 * change20);
+        if (total >= 20) {
+            change20 = (int) total / 20;
+            total = total - (20 * change20);
         }
-        if(total>=10)
-        {
-            change10 = (int)total / 10;
-            total = total -(10* change10);
+        if (total >= 10) {
+            change10 = (int) total / 10;
+            total = total - (10 * change10);
         }
-        if(total>=5)
-        {
-            change5 = (int)total / 5;
-            total = total -(5 * change5);
+        if (total >= 5) {
+            change5 = (int) total / 5;
+            total = total - (5 * change5);
         }
-        if(total>=1)
-        {
-            change1 = (int)total / 1;
-            total = total -(change1);
+        if (total >= 1) {
+            change1 = (int) total / 1;
+            total = total - (change1);
 
         }
-        total = total *100;
+        total = total * 100;
 
-        if(total>=25)
-        {
-            changeQtr = (int)total / 25;
-            total = total -(25 * changeQtr);
+        if (total >= 25) {
+            changeQtr = (int) total / 25;
+            total = total - (25 * changeQtr);
         }
-        if(total>=10)
-        {
-            changeDime = (int)total / 10;
-            total = total -(10 * changeDime);
+        if (total >= 10) {
+            changeDime = (int) total / 10;
+            total = total - (10 * changeDime);
         }
-        if(total>=5)
-        {
-            changeNick = (int)total / 5;
+        if (total >= 5) {
+            changeNick = (int) total / 5;
 
         }
 
-        System.out.println("You Received (" +change20 +") Twenties, ("+  change10 + ") Tens, (" +  change5+ ") Fives, ("+  change1+") Ones, ("+changeQtr +") Quarters, ("+ ") Dimes, ("+ changeDime +") Nickels, ("+ changeNick +")"+"\n");
+        System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + ") Dimes, (" + changeDime + ") Nickels, (" + changeNick + ")" + "\n");
 
     }
 
