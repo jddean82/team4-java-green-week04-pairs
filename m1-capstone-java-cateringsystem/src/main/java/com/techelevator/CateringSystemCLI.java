@@ -90,7 +90,7 @@ public class CateringSystemCLI {
 
 
 
-      if (fundsToAdd ==-1)
+      if (fundsToAdd ==0)
       {
         //DO NOTHING - NON NUMBER ENTERED
         }

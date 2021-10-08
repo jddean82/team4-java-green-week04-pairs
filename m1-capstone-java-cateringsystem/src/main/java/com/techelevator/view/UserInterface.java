@@ -60,7 +60,7 @@ public class UserInterface {
        }
        catch(InputMismatchException e){
             System.out.println("Please enter a valid quantity of currency");
-            return -1;
+            return 0;
         }
 
     }
