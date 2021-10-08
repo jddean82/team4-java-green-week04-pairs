@@ -68,14 +68,10 @@ public class CateringSystemCLI {
             //Captures user input on Sub Menu
             String subUserSelection = userInterface.printSubMenu(accountBalance);
 
-<<<<<<< HEAD
-            if (subUserSelection.equals(ADD_MONEY))
-            {
-                runAddMoney();
-=======
+
             if (subUserSelection.equals(ADD_MONEY)) {
                 addMoney();
->>>>>>> 85e07e03496409bb3d0dfac5674849f3bf583f73
+
 
             }
             else if (subUserSelection.equals(SELECT_PRODUCTS))
@@ -104,13 +100,6 @@ public class CateringSystemCLI {
 
         if (fundsToAdd > 100) {                                         // check if amount added is > $100, return error message
             System.out.println("Amount should be less than $100");
-<<<<<<< HEAD
-        } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {
-            System.out.println("Amount added exceeds $1000 Please add less than " + toCurrency.format((myWallet.getMoneyOnHand() + fundsToAdd - 1000)));
-        } else if (fundsToAdd % 1 != 0) {
-            System.out.println("Please enter a whole number amount");
-        } else myWallet.addMoney(fundsToAdd);
-=======
 
         } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {   // check if amount added  + current balance  >$1000, return error message
             System.out.println("Amount on hand exceeds $1000, Please add less than $" + (myWallet.getMoneyOnHand() + fundsToAdd - 1000));
@@ -123,7 +112,7 @@ public class CateringSystemCLI {
         } else  myWallet.addMoney(fundsToAdd);                           // add new funds to current balance.
 
         // add action to audit log
->>>>>>> 85e07e03496409bb3d0dfac5674849f3bf583f73
+
         String fFundsToAdd = String.format("%,.2f", fundsToAdd);
         String fCurrentBalance = String.format("%,.2f", (myWallet.getMoneyOnHand()));
         auditLog(" ADD MONEY: $" + fFundsToAdd + " $" + fCurrentBalance);
@@ -193,11 +182,11 @@ public class CateringSystemCLI {
         double productPrice = inventory.getPrice(product);
         String productCategory = null;
 
-<<<<<<< HEAD
+
         // need to change product type to display the whole word on the receipt >>><<<ELSE IF ADDED WITH ELSE>>>
-=======
+
         // update product type to full type for display on receipt.
->>>>>>> 85e07e03496409bb3d0dfac5674849f3bf583f73
+
         if (productType.equals("A")) {
             productCategory = "Appetizer";
         }
@@ -210,14 +199,12 @@ public class CateringSystemCLI {
         else if (productType.equals("E")) {
             productCategory = "Entree";
         }
-<<<<<<< HEAD
         else
         {productCategory = "Undefined Product";}
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
-=======
+
         // create an instance of a receipt then add that instance to an array
-        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
->>>>>>> 85e07e03496409bb3d0dfac5674849f3bf583f73
+
         receipts.add(thisReceipt);
     }
 
