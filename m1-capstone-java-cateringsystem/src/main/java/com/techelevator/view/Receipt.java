@@ -1,6 +1,6 @@
 package com.techelevator.view;
 
-public class Receipt {
+public class Receipt {  // create  Receipt object that can take in all of the parameters necessary to print out on the receipt.
 
     private int qty;
     private String type;
