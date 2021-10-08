@@ -3,6 +3,11 @@ package com.techelevator;
 
 import com.techelevator.view.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -73,8 +78,9 @@ public class CateringSystemCLI {
 
             } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
                 userInterface.printReceipt(receipts);
-                calculateChange(2);///<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>> CHANGE THIS
+                calculateChange(myWallet.getMoneyOnHand());
                 receipts = new ArrayList<>(); // reinitialize array to receipt for next receipt.
+                myWallet.subtractMoney(myWallet.getMoneyOnHand());
                 break;
             }
         }
@@ -95,6 +101,7 @@ public class CateringSystemCLI {
             System.out.println("Please enter a whole number amount");
         } else myWallet.addMoney(fundsToAdd);
         System.out.println(myWallet.getMoneyOnHand()); ///QA LINE
+        auditLog(" ADD MONEY: " + "$" + fundsToAdd + " $" + myWallet.getMoneyOnHand());
         //     } catch(InputMismatchException ex){
     }
 
@@ -134,6 +141,7 @@ public class CateringSystemCLI {
 
                     myWallet.subtractMoney(costOfProduct);                              // PAY - subtract Money
                     inventory.subtractInventory(productCode, quantity);                 // UPDATE inventory
+                    auditLog( " " + quantity + " " + inventory.getDescription(productCode) + " " + productCode + " $" + costOfProduct + " $" + myWallet.getMoneyOnHand());
                     printReceipt(productCode, quantity);                                //PRINT RECEIPT
 
 
@@ -171,12 +179,12 @@ public class CateringSystemCLI {
         }
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
         receipts.add(thisReceipt);
+     //   calculateChange(myWallet.getMoneyOnHand());
+        auditLog(" GIVE CHANGE: " + "$" + myWallet.getMoneyOnHand() + " $" + myWallet.subtractMoney(myWallet.getMoneyOnHand()));
     }
 
     public void calculateChange(double total)   //Calc Total Amount to return to customer
     {
-
-        total = 76.40; /////////////////////////////////CHANGE THIS < REMOVE
 
         int change20 = 0;
         int change10 = 0;
@@ -219,13 +227,29 @@ public class CateringSystemCLI {
         if (total >= 5) {
             changeNick = (int) total / 5;
         }
-        System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + ") Dimes, (" + changeDime + ") Nickels, (" + changeNick + ")" + "\n");
+        System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + changeDime + ") Dimes, (" + changeNick  + ") Nickels" + "\n");
     }
 
-    public void auditLog()
+    public void auditLog(String auditString)
     {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("log.txt", true)))) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            out.println((dtf.format(now)+ auditString));
+
+            out.flush();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+     //   System.out.println(dtf.format(now) + "ADD MONEY: " + fundsToAdd +  myWallet.getMoneyOnHand());
+       // System.out.println(dtf.format(now) + "GIVE CHANGE: " + fundsToAdd +  myWallet.getMoneyOnHand());
+        //System.out.println(dtf.format(now) + );
 
     }
+
 
 
 }
