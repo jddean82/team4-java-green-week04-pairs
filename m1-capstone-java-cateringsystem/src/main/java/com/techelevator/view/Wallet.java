@@ -8,19 +8,19 @@ public class Wallet
 
     public double addMoney(double moneyIn) {
 
-        moneyOnHand += moneyIn;
+        this.moneyOnHand += moneyIn;
 
-        return moneyOnHand;
+        return this.moneyOnHand;
     }
 
     public double subtractMoney(double moneyOut)
     {
-        moneyOnHand -= moneyOut;
-        return moneyOnHand;
+        this.moneyOnHand -= moneyOut;
+        return this.moneyOnHand;
     }
 
     public double getMoneyOnHand() {
-        return moneyOnHand;
+        return this.moneyOnHand;
     }
 
 

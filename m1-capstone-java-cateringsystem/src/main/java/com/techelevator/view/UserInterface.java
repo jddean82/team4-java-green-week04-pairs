@@ -67,7 +67,7 @@ public class UserInterface {
 
     public void displayInventory(List<CateringItem> cateringItems) {
 
-        System.out.printf("%-15s%-25s%-22s%-5s", "Product Code", "Description", "Qty", "Price");
+        System.out.printf("%-15s%-25s%-10s%-5s", "Product Code", "Description", "Qty", "Price");
         System.out.println("\n");
 
         int quantity;                   //////////////////////////////////////////////////JEFF
@@ -77,12 +77,12 @@ public class UserInterface {
            quantity =  cateringItem.getQty();      //GET QTY TO TEST FOR 0 IF 0 insufficient stock
 
             if(quantity == 0)
-                quantityAsString = "insufficient stock";
+                quantityAsString = "SOLD OUT";
             else
                 quantityAsString = Integer.toString(quantity);
 
                                                                                                                             ///changed to quantity
-            System.out.println(String.format("%-15s%-25s%-22s$%6.2f", cateringItem.getCode(), cateringItem.getDescription(), quantityAsString, cateringItem.getPrice()));
+            System.out.println(String.format("%-15s%-25s%-10s$%6.2f", cateringItem.getCode(), cateringItem.getDescription(), quantityAsString, cateringItem.getPrice()));
         }
         System.out.println("\n");
 
