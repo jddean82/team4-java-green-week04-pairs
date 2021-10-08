@@ -61,8 +61,9 @@ public class CateringSystemCLI {
 
         while (true) {
 
+            double accountBalance = myWallet.getMoneyOnHand();
             //Captures user input on Sub Menu
-            String subUserSelection = userInterface.printSubMenu();
+            String subUserSelection = userInterface.printSubMenu(accountBalance);
 
             if (subUserSelection.equals(ADD_MONEY)) {
                 runAddMoney();
@@ -73,7 +74,7 @@ public class CateringSystemCLI {
             } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
                 userInterface.printReceipt(receipts);
                 calculateChange(2);///<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>> CHANGE THIS
-                receipts = new ArrayList<>(); ///// SARAH
+                receipts = new ArrayList<>(); // reinitialize array to receipt for next receipt.
                 break;
             }
         }
@@ -85,17 +86,18 @@ public class CateringSystemCLI {
         // IF user interface see 100 / 1000 violation, returns $0 to add to quantity - also sends error message
         //ELSE funds are added via Wallet.addMoney
 
-        try {
-            if (fundsToAdd > 100) {
-                System.out.println("Amount should be less than $100");
-            } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {
-                System.out.println("Amount on hand exceeds $1000 Please add less than " + (myWallet.getMoneyOnHand() + fundsToAdd - 1000));
-            } else myWallet.addMoney(fundsToAdd);
-            System.out.println(myWallet.getMoneyOnHand()); ///QA LINE
-        } catch (InputMismatchException ex) {
+        // try {
+        if (fundsToAdd > 100) {
+            System.out.println("Amount should be less than $100");
+        } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {
+            System.out.println("Amount on hand exceeds $1000 Please add less than " + (myWallet.getMoneyOnHand() + fundsToAdd - 1000));
+        } else if (fundsToAdd % 1 != 0) {
             System.out.println("Please enter a whole number amount");
-        }
+        } else myWallet.addMoney(fundsToAdd);
+        System.out.println(myWallet.getMoneyOnHand()); ///QA LINE
+        //     } catch(InputMismatchException ex){
     }
+
 
     private void displayInventory() {
 
@@ -108,10 +110,9 @@ public class CateringSystemCLI {
 
     public void selectProducts() {
         displayInventory();
-        int quantity;
+        int quantity = 0;
         int existingQuantity;
         String productCode;
-
 
         productCode = userInterface.selectProductCode();
 
@@ -124,13 +125,19 @@ public class CateringSystemCLI {
             else if (existingQuantity >= quantity) {
                 inventory.subtractInventory(productCode, quantity);
                 printReceipt(productCode, quantity);
+                double costOfProduct = quantity * inventory.getPrice(productCode);
+                if (costOfProduct <= myWallet.getMoneyOnHand()) {
+                    myWallet.subtractMoney(costOfProduct);
+                } else
+                    System.out.println("The purchase cost is $" + costOfProduct + " which is greater than your current account balance of $" + myWallet.getMoneyOnHand() + ". Please enter more funds or select a lower quantity.");
             } else
-                System.out.println("Your request of " + quantity + " exceeds what we have:" + existingQuantity);
-        } else/////////////////////////////JEFF
+                System.out.println("Your request of " + quantity + " exceeds our current inventory of " + existingQuantity);
+        } else
+
+
             System.out.println("Please enter a valid Product Code, " + productCode + " isn't a valid.");
 
     }
-
 
     public void printReceipt(String product, int quantity) {
         String productType = inventory.getType(product);
@@ -151,10 +158,8 @@ public class CateringSystemCLI {
         if (productType.equals("E")) {
             productCategory = "Entree";
         }
-
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
         receipts.add(thisReceipt);
-
     }
 
     public void calculateChange(double total)   //Calc Total Amount to return to customer
@@ -189,7 +194,6 @@ public class CateringSystemCLI {
         if (total >= 1) {
             change1 = (int) total / 1;
             total = total - (change1);
-
         }
         total = total * 100;
 
@@ -203,11 +207,8 @@ public class CateringSystemCLI {
         }
         if (total >= 5) {
             changeNick = (int) total / 5;
-
         }
-
         System.out.println("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + ") Dimes, (" + changeDime + ") Nickels, (" + changeNick + ")" + "\n");
-
     }
 
 }
