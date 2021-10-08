@@ -115,7 +115,8 @@ public class CateringSystemCLI {
 
         productCode = userInterface.selectProductCode();
 
-        if (inventory.hasProductKey(productCode)) {
+        if (inventory.hasProductKey(productCode))
+        {
             quantity = userInterface.selectQuantity();
             existingQuantity = inventory.getInventory(productCode);
 
