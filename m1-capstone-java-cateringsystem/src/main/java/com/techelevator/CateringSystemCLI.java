@@ -85,31 +85,47 @@ public class CateringSystemCLI {
 
     public void addMoney() {
 
+
         double fundsToAdd = userInterface.addFunds(); //Call user interface, get funds, return quantity (UI screens for 100 / 1000 limits)
 
 
-        if (fundsToAdd > 100) {// check if amount added is > $100, return error message
-            userInterface.printMessage("Amount should be less than $100");
+
+      if (fundsToAdd ==-1)
+      {
+        //DO NOTHING - NON NUMBER ENTERED
+        }
+      else if (fundsToAdd > 100)
+      {
+          // check if amount added is > $100, return error message
+          userInterface.printMessage("Amount should be less than $100");
+      }
 
 
-        } else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {   // check if amount added  + current balance  >$1000, return error message
+      else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {   // check if amount added  + current balance  >$1000, return error message
             userInterface.printMessage("Amount on hand exceeds $1000, Please add less than $" + (myWallet.getMoneyOnHand() + fundsToAdd - 1000) + ".");
 
 
-        } else if (fundsToAdd % 1 != 0) {                               // check if amount added is a whole number, return error message
+        }
+      else if (fundsToAdd % 1 != 0)
+      {                               // check if amount added is a whole number, return error message
             userInterface.printMessage("Please enter a whole number amount.");
 
-
-        } else if (fundsToAdd < 0){                                     // check if amount added is positive, return error message
+      }
+      else if (fundsToAdd < 0)
+      {                                     // check if amount added is positive, return error message
             userInterface.printMessage("Cannot remove funds from current balance, please enter a positive amount to add.");
 
-        } else  myWallet.addMoney(fundsToAdd);                           // add new funds to current balance.
+        }
+      else
+            {
+            myWallet.addMoney(fundsToAdd);                           // add new funds to current balance.
 
-        // add action to audit log
+            // add action to audit log
 
-        String fFundsToAdd = String.format("%,.2f", fundsToAdd);
-        String fCurrentBalance = String.format("%,.2f", (myWallet.getMoneyOnHand()));
-        auditLog(" ADD MONEY: $" + fFundsToAdd + " $" + fCurrentBalance);
+            String fFundsToAdd = String.format("%,.2f", fundsToAdd);
+            String fCurrentBalance = String.format("%,.2f", (myWallet.getMoneyOnHand()));
+            auditLog(" ADD MONEY: $" + fFundsToAdd + " $" + fCurrentBalance);
+             }
     }
 
 

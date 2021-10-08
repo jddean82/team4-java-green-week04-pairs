@@ -3,6 +3,7 @@ package com.techelevator.view;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -51,10 +52,16 @@ public class UserInterface {
         double amountToAdd; // RETURN VALUE
 
         System.out.println("How much money would you like to add, max is $100");
-        amountToAdd = moneyInput.nextDouble();
-        moneyInput.nextLine();
+       try {
+           amountToAdd = moneyInput.nextDouble();
+           moneyInput.nextLine();
 
-        return amountToAdd;
+           return amountToAdd;
+       }
+       catch(InputMismatchException e){
+            System.out.println("Please enter a valid quantity of currency");
+            return -1;
+        }
 
     }
 
