@@ -7,10 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="m01d08-collections-part2-lecture" />
-        <module name="m1-java-capstone-catering-system" />
         <module name="m01d14-unit-testing-lecture" />
         <module name="m01d14-unit-testing-lecture-final" />
+        <module name="m01d18-week4-review-starter" />
+        <module name="m01d17-file-io-part2-lecture-final" />
+        <module name="m1-java-capstone-catering-system" />
         <module name="m01d14-unit-testing-exercise" />
+        <module name="m01d17-file-io-part2-lecture-student" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,6 +21,9 @@
       <module name="m01d14-unit-testing-exercise" target="11" />
       <module name="m01d14-unit-testing-lecture" target="11" />
       <module name="m01d14-unit-testing-lecture-final" target="11" />
+      <module name="m01d17-file-io-part2-lecture-final" target="11" />
+      <module name="m01d17-file-io-part2-lecture-student" target="11" />
+      <module name="m01d18-week4-review-starter" target="11" />
       <module name="m1-java-capstone-catering-system" target="1.8" />
     </bytecodeTargetLevel>
   </component>
