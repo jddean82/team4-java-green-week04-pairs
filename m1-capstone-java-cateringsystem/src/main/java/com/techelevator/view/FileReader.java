@@ -27,7 +27,7 @@ public class FileReader {
             while (scanner.hasNextLine()){
 
                 String inventoryLine = scanner.nextLine();
-                
+
                 String [] inventoryField = inventoryLine.split("\\|");
 
                 String type = inventoryField[0];
