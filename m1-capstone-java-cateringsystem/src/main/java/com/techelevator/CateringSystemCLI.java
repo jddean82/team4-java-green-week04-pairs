@@ -212,7 +212,7 @@ public class CateringSystemCLI {
             productCategory = "Entree";
         }
         else   // create an instance of a receipt then add that instance to an array
-        {productCategory = "Undefined Product";}
+        {productCategory = "Undefined";}
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
 
 
