@@ -16,9 +16,9 @@ public class Inventory {
 
     public List<CateringItem> displayInventory() {  // create a list of inventory items, send list to UI to print in inventory display.
 
-        List<CateringItem> listOfCateringItems = new ArrayList<>();
+        List<CateringItem> listOfCateringItems = new ArrayList<>();  //create CI object list
 
-        Set<String> inventoryKeys = new HashSet<String>();  // create a set of keys from inventory map
+        Set<String> inventoryKeys = new HashSet<String>();  // create a key set from display inventory map
         inventoryKeys = cateringInventory.keySet();
 
         for (String inventoryKey : inventoryKeys) {    //loop through keys and add each inventory item to inventory list

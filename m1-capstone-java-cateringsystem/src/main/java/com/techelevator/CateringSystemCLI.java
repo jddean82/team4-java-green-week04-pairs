@@ -39,6 +39,7 @@ public class CateringSystemCLI {
 
     public void run() {
 
+
         /////////////////LOOP for MAIN MENU
         while (true) {
 
@@ -50,12 +51,15 @@ public class CateringSystemCLI {
             } else if (userSelection.equals(ORDER)) {
                 runSubMenu();
             } else if (userSelection.equals(QUIT)) {
+                ////////BONUS REQ
                 break;
             } else {
                 userInterface.printMessage("Invalid Selection, Please Try Again" + "\n"); //user fell through loop, invalid entry
             }
         }
     }
+
+
     /////////////////////////////////////////////////SUB MENU
     private void runSubMenu() {
 
@@ -64,7 +68,7 @@ public class CateringSystemCLI {
             double accountBalance = myWallet.getMoneyOnHand();
 
             //Display submenu - pass customer balance $ for display
-            String subUserSelection = userInterface.printSubMenu(accountBalance);
+            String subUserSelection = userInterface.printSubMenu(accountBalance); //pass balance to submenu UI
 
             if (subUserSelection.equals(ADD_MONEY)) {
                 addMoney();
@@ -73,10 +77,10 @@ public class CateringSystemCLI {
                 selectProducts();
 
             } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
-                userInterface.printReceipt(receipts);
-                calculateChange(myWallet.getMoneyOnHand());
-                receipts = new ArrayList<>();                             // reinitialize array to receipt for next receipt.
-                myWallet.subtractMoney(myWallet.getMoneyOnHand());
+                userInterface.printReceipt(receipts);                       //print receipt.
+                calculateChange(myWallet.getMoneyOnHand());                 //call change calculator.
+                myWallet.subtractMoney(myWallet.getMoneyOnHand());          //zero out wallet - (get balance and subtract from itself)
+                receipts = new ArrayList<>();                               // reinitialize array to receipt for next receipt.
                 break;
             } else {
                 userInterface.printMessage("Invalid Selection, Please Try Again" + "\n");
@@ -84,17 +88,15 @@ public class CateringSystemCLI {
         }
     }
 
-    public void addMoney() {
 
+    public void addMoney() {
 
         double fundsToAdd = userInterface.addFunds(); //Call user interface, get funds, return quantity (UI screens for 100 / 1000 limits)
 
+      if (fundsToAdd ==0) //>>>>>>>>>> UI.add funds returns 0 if non numeric with TRY/ CATCH <<<<<<<<<
+      {//DO NOTHING - NON NUMBER ENTERED
+      }
 
-
-      if (fundsToAdd ==0)
-      {
-        //DO NOTHING - NON NUMBER ENTERED
-        }
       else if (fundsToAdd > 100)
       {
           // check if amount added is > $100, return error message
@@ -102,11 +104,12 @@ public class CateringSystemCLI {
       }
 
 
-      else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {   // check if amount added  + current balance  >$1000, return error message
+      else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000))
+      {   // check if amount added  + current balance  >$1000, return error message
             userInterface.printMessage("Amount on hand exceeds $1000, Please add $" + (1000-(myWallet.getMoneyOnHand())) + " or less.");
 
-
         }
+
       else if (fundsToAdd % 1 != 0)
       {                               // check if amount added is a whole number, return error message
             userInterface.printMessage("Please enter a whole number amount.");
@@ -117,14 +120,14 @@ public class CateringSystemCLI {
             userInterface.printMessage("Cannot remove funds from current balance, please enter a positive amount to add.");
 
         }
-      else
+      else           //<<<<<<<<<MAIN CODE>>>>>>>>>>
             {
-            myWallet.addMoney(fundsToAdd);                           // add new funds to current balance.
+            myWallet.addMoney(fundsToAdd);           // add new funds to current balance.
 
-            // add action to audit log
-
+                // format to #$$ then add action to audit log
             String fFundsToAdd = String.format("%,.2f", fundsToAdd);
             String fCurrentBalance = String.format("%,.2f", (myWallet.getMoneyOnHand()));
+
             auditLog(" ADD MONEY: $" + fFundsToAdd + " $" + fCurrentBalance);
              }
     }
@@ -132,25 +135,29 @@ public class CateringSystemCLI {
 
     private void displayInventory() {    // create a list of catering items and send list to UI to print.
 
-        List<CateringItem> cateringItemList = new ArrayList<>();
+        List<CateringItem> cateringItemList = new ArrayList<>(); //Create CI object List
 
-        cateringItemList = inventory.displayInventory();
+        cateringItemList = inventory.displayInventory(); //get the list of inventory items from the display inventory method (populates a list with all inv)
 
-        userInterface.displayInventory(cateringItemList);
+        userInterface.displayInventory(cateringItemList); //display the inventory list
     }
 
-    public void selectProducts() {    // take product code and quantity input by user. Remove item from inventory, add item to users cart.
+
+    public void selectProducts() {    //add inv list to UI,  take product code and quantity input by user. Remove item from inventory, add item to users cart.
         displayInventory();
         int quantity = 0;
         int existingQuantity;
         String productCode;
 
-        productCode = userInterface.selectProductCode();
+        productCode = userInterface.selectProductCode();         // User inputted code
 
         if (inventory.hasProductKey(productCode))                                                       //IF PRODUCT CODE EXISTS... EXECUTE - ELSE ERROR
         {
-            quantity = userInterface.selectQuantity();
-            existingQuantity = inventory.getQty(productCode);
+            quantity = userInterface.selectQuantity();          //amount user requested. TRY CATCH to test for non int values
+            if(quantity !=0)       ///TRY CATCH returned or user returned 0 don't process<<<<<<<<<<<<<<<<<<<
+            {
+
+            existingQuantity = inventory.getQty(productCode);  //ACTUAL ON HAND
 
             if (existingQuantity <= 0)
                 userInterface.printMessage("Sorry, we are all out of that product.");                   // TEST OUT OF PRODUCT, Do NOTHING
@@ -181,7 +188,7 @@ public class CateringSystemCLI {
             } else
                 userInterface.printMessage("Your request of " + quantity + " exceeds our current inventory of " + existingQuantity);  //ERROR-  Qty ON hand to low
 
-
+            }
 
         } else
             userInterface.printMessage( productCode + " is not valid code, please enter code exactly as shown.");       //ERROR - No such Product
@@ -189,14 +196,15 @@ public class CateringSystemCLI {
 
     }
 
-    public void printReceipt(String product, int quantity) {
-        String productType = inventory.getType(product);
-        String productDescription = inventory.getDescription(product);
-        double productPrice = inventory.getPrice(product);
+
+    public void printReceipt(String product, int quantity) {  //Input product key to look up product info for receipt print
+        String productType = inventory.getType(product);                    //TYPE
+        String productDescription = inventory.getDescription(product);      //DESC
+        double productPrice = inventory.getPrice(product);                  //PRICE
         String productCategory = null;
 
 
-        // need to change product type to display the whole word on the receipt >>><<<ELSE IF ADDED WITH ELSE>>>
+        // need to change product type(Ex B to Beverage) to display the whole word on the receipt >>><<<ELSE IF ADDED WITH ELSE>>>
 
         // update product type to full type for display on receipt.
 
@@ -212,8 +220,10 @@ public class CateringSystemCLI {
         else if (productType.equals("E")) {
             productCategory = "Entree";
         }
-        else   // create an instance of a receipt then add that instance to an array
-        {productCategory = "Undefined";}
+        else
+        {productCategory = "Undefined";}        //IN CASE code is added, (ex F = undefined)
+
+        // create an instance of a receipt then add that instance to an array
         Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
 
 
@@ -231,7 +241,7 @@ public class CateringSystemCLI {
         int changeNick = 0;
 
 
-        List<Receipt> receiptItems = new ArrayList<>();   //////////////// do we need this?
+       // List<Receipt> receiptItems = new ArrayList<>();   //////////////// do we need this?
 
         if (total >= 20) {
             change20 = (int) total / 20;
@@ -264,7 +274,7 @@ public class CateringSystemCLI {
         }
             userInterface.printMessage("You Received (" + change20 + ") Twenties, (" + change10 + ") Tens, (" + change5 + ") Fives, (" + change1 + ") Ones, (" + changeQtr + ") Quarters, (" + changeDime + ") Dimes, (" + changeNick + ") Nickels" + "\n");
 
-        // add to audit log
+        // add to audit log give change event.
         String fProductPrice = String.format("%,.2f", myWallet.getMoneyOnHand());
         String fCurrentBalance = String.format("%,.2f", myWallet.subtractMoney(myWallet.getMoneyOnHand()));
         auditLog(" GIVE CHANGE: $" + fProductPrice + " $" + fCurrentBalance);
