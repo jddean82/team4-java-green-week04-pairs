@@ -11,12 +11,16 @@ public class FileReader {
         private Scanner scanner;
 
         public FileReader(){
-            File inputFile = new File("cateringsystem.csv");
+          //  File inputFile = new File("cateringsystem.csv"); //<<<<<<<<<<<<<PROVIDED FILE>>>>>>>>>>>>>>>>>>>>>>
+                                                                                //**** USE ON OR OTHER ONLY******
+            File inputFile = new File("cateringsystemTEST.csv"); //<<<<<<<<<<<<<TEST HARNESS FILE>>>>>>>>>>>>>>>>>>>
             try {
                 scanner = new Scanner(inputFile);
             } catch (FileNotFoundException e) {
                 System.out.println("File not Found.");
+                    System.exit(0); //terminated with out errors
             }
+
         }
 
     public Map<String, CateringItem> loadInventory(){

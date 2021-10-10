@@ -86,9 +86,20 @@ public class Inventory {
     }
 
 
+
+
     public boolean hasProductKey(String productCode)
     {
         return cateringInventory.containsKey(productCode);
     }
 
+
+    /////////////////////////ADDED FOR TEST< but is this a good idea? Code Review Suggestions?
+    public void setCateringInventory(Map<String, CateringItem> cateringInventory) {
+        this.cateringInventory = cateringInventory;
+    }
+
+    public Map<String, CateringItem> getCateringInventory() {
+        return cateringInventory;
+    }
 }
