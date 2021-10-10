@@ -30,11 +30,11 @@ public class CateringSystemCLI {
         cli.run();
     }
 
-    UserInterface userInterface = new UserInterface();    //use in subMenu & mainMenu
-    Wallet myWallet = new Wallet();                        //used in subMenu
-    Inventory inventory = new Inventory();
-    List<Receipt> receipts = new ArrayList<>(); // List to store user transaction for our receipt
-    NumberFormat toCurrency = NumberFormat.getCurrencyInstance();
+    UserInterface userInterface = new UserInterface();                          //get user input
+    Wallet myWallet = new Wallet();                                             //tracking 'customer' $
+    Inventory inventory = new Inventory();                                      //main inventory object
+    List<Receipt> receipts = new ArrayList<>();                                 // List to store user transaction for our receipt
+    NumberFormat toCurrency = NumberFormat.getCurrencyInstance();               // Format $9.99
 
 
     public void run() {
@@ -52,7 +52,7 @@ public class CateringSystemCLI {
             } else if (userSelection.equals(QUIT)) {
                 break;
             } else {
-                userInterface.printMessage("Invalid Selection, Please Try Again" + "\n");
+                userInterface.printMessage("Invalid Selection, Please Try Again" + "\n"); //user fell through loop, invalid entry
             }
         }
     }
@@ -60,9 +60,10 @@ public class CateringSystemCLI {
     private void runSubMenu() {
 
         while (true) {
-
+            //retrieve / update balance per iteration of loop
             double accountBalance = myWallet.getMoneyOnHand();
-            //Captures user input on Sub Menu
+
+            //Display submenu - pass customer balance $ for display
             String subUserSelection = userInterface.printSubMenu(accountBalance);
 
             if (subUserSelection.equals(ADD_MONEY)) {
@@ -74,7 +75,7 @@ public class CateringSystemCLI {
             } else if (subUserSelection.equals(COMPLETE_TRANSACTION)) {
                 userInterface.printReceipt(receipts);
                 calculateChange(myWallet.getMoneyOnHand());
-                receipts = new ArrayList<>(); // reinitialize array to receipt for next receipt.
+                receipts = new ArrayList<>();                             // reinitialize array to receipt for next receipt.
                 myWallet.subtractMoney(myWallet.getMoneyOnHand());
                 break;
             } else {
@@ -102,7 +103,7 @@ public class CateringSystemCLI {
 
 
       else if ((myWallet.getMoneyOnHand() + fundsToAdd > 1000)) {   // check if amount added  + current balance  >$1000, return error message
-            userInterface.printMessage("Amount on hand exceeds $1000, Please add less than $" + (myWallet.getMoneyOnHand() + fundsToAdd - 1000) + ".");
+            userInterface.printMessage("Amount on hand exceeds $1000, Please add $" + (1000-(myWallet.getMoneyOnHand())) + " or less.");
 
 
         }
