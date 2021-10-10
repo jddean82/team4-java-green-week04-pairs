@@ -22,7 +22,7 @@ public class test_Inventory {
 
         Inventory inventory = new Inventory(); //CREATES file reader and loads from inventory reader cals.
 
-        Inventory myInventory = null;
+
         Map<String, CateringItem> cateringInventory = new HashMap<>(); // catering item map
 
         //create CIs for map
@@ -36,10 +36,11 @@ public class test_Inventory {
         cateringInventory.put("B3",itemB3);
         cateringInventory.put("D2",itemD2);
 
-        myInventory.setCateringInventory(cateringInventory);
+        Inventory testInventory = new Inventory();
+        testInventory.setCateringInventory(cateringInventory);
 
         ///TEST - INVENTORY CONSTRUCTOR
-        Assert.assertEquals(myInventory.getCateringInventory(),inventory.getCateringInventory());
+       Assert.assertEquals(testInventory.getCateringInventory(),inventory.getCateringInventory());
 
 
 
