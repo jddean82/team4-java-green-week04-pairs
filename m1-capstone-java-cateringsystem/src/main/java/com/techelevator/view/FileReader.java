@@ -11,9 +11,9 @@ public class FileReader {
         private Scanner scanner;
 
         public FileReader(){
-          //  File inputFile = new File("cateringsystem.csv"); //<<<<<<<<<<<<<PROVIDED FILE>>>>>>>>>>>>>>>>>>>>>>
+            File inputFile = new File("cateringsystem.csv"); //<<<<<<<<<<<<<PROVIDED FILE>>>>>>>>>>>>>>>>>>>>>>
                                                                                 //**** USE ON OR OTHER ONLY******
-            File inputFile = new File("cateringsystemTEST.csv"); //<<<<<<<<<<<<<TEST HARNESS FILE>>>>>>>>>>>>>>>>>>>
+          //  File inputFile = new File("cateringsystemTEST.csv"); //<<<<<<<<<<<<<TEST HARNESS FILE>>>>>>>>>>>>>>>>>>>
             try {
                 scanner = new Scanner(inputFile);
             } catch (FileNotFoundException e) {
@@ -25,7 +25,7 @@ public class FileReader {
 
     public Map<String, CateringItem> loadInventory(){
 
-            Map<String,CateringItem> cateringInventory = new TreeMap<>();
+            Map<String,CateringItem> cateringInventory = new TreeMap<>();  // create a map to hold items pulled in from fil reader.
 
 
             while (scanner.hasNextLine()){

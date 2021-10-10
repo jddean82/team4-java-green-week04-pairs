@@ -224,7 +224,7 @@ public class CateringSystemCLI {
         {productCategory = "Undefined";}        //IN CASE code is added, (ex F = undefined)
 
         // create an instance of a receipt then add that instance to an array
-        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);  // create an instance of a receipt then at that instance to an array
+        Receipt thisReceipt = new Receipt(quantity, productCategory, productDescription, productPrice, productPrice * quantity);
 
 
         receipts.add(thisReceipt);
@@ -240,8 +240,6 @@ public class CateringSystemCLI {
         int changeDime = 0;
         int changeNick = 0;
 
-
-       // List<Receipt> receiptItems = new ArrayList<>();   //////////////// do we need this?
 
         if (total >= 20) {
             change20 = (int) total / 20;
